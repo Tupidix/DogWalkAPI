@@ -1,1 +1,19 @@
+# Dossiers et fichiers générés automatiquement
 node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Dossiers et fichiers spécifiques à certains éditeurs/IDE
+.vscode/
+.idea/
+
+# Fichiers de sauvegarde
+*~
+
+# Fichiers de configuration locaux
+.env
+
+# Fichiers de logs
+logs/
+*.log
