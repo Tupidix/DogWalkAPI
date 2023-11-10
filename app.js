@@ -44,7 +44,6 @@ isAdmin: {
 localisation: {
   type: {
     type: String,
-    required: true,
     enum: ['Point'],
   },
   coordinate: {
