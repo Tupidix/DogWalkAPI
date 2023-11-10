@@ -11,16 +11,50 @@ mongoose.connect('mongodb://localhost/DogWalkAPI');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema  ({
-username: String,
-firstname: String,
-lastname: String,
-email: String,
-password: String,
-birthdate: Date,
-isAdmin: {type: Boolean, default: false},
+firstname: {
+  type: String,
+  required: true,
+  minlength: [3, 'Firstname is too short'],
+  maxlength: [30, 'Firstname is too long']
+},
+lastname: {
+  type: String,
+  required: true,
+  minlength: [3, 'Lastname is too short'],
+  maxlength: [30, 'Lastname is too long']
+},
+email: {
+  type: String,
+  unique: true,
+  required: true
+},
+password: {
+  type: String,
+  required: true,
+  minlength: [8, 'Password is too short']
+},
+birthdate: {
+  type: Date,
+  required: true
+},
+isAdmin: {
+  type: Boolean, 
+  default: false
+},
 localisation: {
-  type: {type: String},
-  coordinates: [],
+  type: {
+    type: String,
+    required: true,
+    enum: ['Point'],
+  },
+  coordinate: {
+    type: [Number],
+    required: true,
+    validate: {
+      validator: validateGeoJsonCoordinates,
+      message: 'Path coordinates must be an array of two numbers'
+    }
+}
 },
 dogList: [{type: Schema.Types.ObjectId, ref: 'Dog'}],
 currentPath: {type: Schema.Types.ObjectId, ref: 'Walk', default: 0},
@@ -29,24 +63,66 @@ currentPath: {type: Schema.Types.ObjectId, ref: 'Walk', default: 0},
 mongoose.model('User', userSchema);
 
 const dogSchema = new Schema  ({
-  name: String,
-  birthdate: Date,
-  breed: String,
-  master: [{type: Schema.Types.ObjectId, ref: 'User'}],
+  name: {
+    type: String,
+    required: true,
+    minlength: [3, 'Dog name is too short'],
+    maxlength: [20, 'Dog name is too long']
+  },
+  birthdate:  {
+    type: Date,
+    required: true
+  },
+  breed: {
+    type: String,
+    required: true,
+    minlength: [3, 'Dog breed is too short'],
+    maxlength: [40, 'Dog breed is too long']
+  },
+  master: [{type: Schema.Types.ObjectId, ref: 'User', required: true}],
   dislike: [{type: Schema.Types.ObjectId, ref: 'Dog'}],
-  picture: {type: String},
+  picture: {type: String, required: true},
 });
 
 mongoose.model('Dog', dogSchema);
 
 const walkSchema = new Schema  ({
-title: String,
-path: {
-  type: {type: String},
-  coordinates: [],
+title: {
+  type: String,
+  required: true,
+  minlength: [3, 'Walk name is too short'],
+  maxlength: [40, 'Walk name is too long']
 },
-creator: {type: Schema.Types.ObjectId, ref: 'User'},
+path: [{
+  type: {
+    type: String,
+    required: true,
+    enum: ['Point'],
+  },
+  coordinate: {
+    type: [Number],
+    required: true,
+    validate: {
+      validator: validateGeoJsonCoordinates,
+      message: 'Path coordinates must be an array of two numbers'
+    }
+  }
+}],
+creator: {type: Schema.Types.ObjectId, ref: 'User', required: true},
 });
+
+// Validate a GeoJSON coordinates array (longitude, latitude and optional altitude).
+function validateGeoJsonCoordinates(value) {
+  return Array.isArray(value) && value.length >= 2 && value.length <= 3 && isLongitude(value[0]) && isLatitude(value[1]);
+}
+
+function isLatitude(value) {
+  return value >= -90 && value <= 90;
+}
+
+function isLongitude(value) {
+  return value >= -180 && value <= 180;
+}
 
 mongoose.model('Walk', walkSchema);
 
