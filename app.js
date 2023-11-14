@@ -45,12 +45,12 @@ const userSchema = new Schema({
 	localisation: {
 		type: {
 			type: String,
-			// required: true,
+			required: true,
 			enum: ["Point"],
 		},
 		coordinate: {
 			type: [Number],
-			// required: true,
+			required: true,
 			validate: {
 				validator: validateGeoJsonCoordinates,
 				message: "Path coordinates must be an array of two numbers",
