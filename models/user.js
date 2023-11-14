@@ -37,19 +37,17 @@ const userSchema = new Schema({
 	localisation: {
 		type: {
 			type: String,
-			required: true,
 			enum: ["Point"],
 		},
 		coordinate: {
 			type: [Number],
-			required: true,
 			validate: {
 				validator: validateGeoJsonCoordinates,
 				message: "Path coordinates must be an array of two numbers",
 			},
 		},
 	},
-	currentPath: { type: Schema.Types.ObjectId, ref: "Walk", default: 0 },
+	currentPath: { type: Schema.Types.ObjectId, ref: "Walk" },
 });
 
 export default mongoose.model("User", userSchema);

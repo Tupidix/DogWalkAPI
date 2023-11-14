@@ -1,5 +1,9 @@
 // Validate a GeoJSON coordinates array (longitude, latitude and optional altitude).
 function validateGeoJsonCoordinates(value) {
+	if (!value || value.length === 0) {
+		return "OK, aucune localisation n'est enregistrée";
+	}
+
 	return (
 		Array.isArray(value) &&
 		value.length >= 2 &&
