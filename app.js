@@ -7,7 +7,7 @@ import dogsRouter from "./routes/dogs.js";
 import walksRouter from "./routes/walks.js";
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb://localhost/DogWalkAPI");
+mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost/DogWalkAPI');
 
 const app = express();
 
