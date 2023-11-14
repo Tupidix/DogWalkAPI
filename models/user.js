@@ -49,7 +49,7 @@ const userSchema = new Schema({
 			},
 		},
 	},
-	currentPath: { type: Schema.Types.ObjectId, ref: "Walk", default: 0 },
+	currentPath: { type: Schema.Types.ObjectId, ref: "Walk"},
 });
 
 export default mongoose.model("User", userSchema);
