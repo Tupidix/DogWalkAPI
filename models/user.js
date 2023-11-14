@@ -49,7 +49,6 @@ const userSchema = new Schema({
 			},
 		},
 	},
-	dogList: [{ type: Schema.Types.ObjectId, ref: "Dog" }],
 	currentPath: { type: Schema.Types.ObjectId, ref: "Walk", default: 0 },
 });
 

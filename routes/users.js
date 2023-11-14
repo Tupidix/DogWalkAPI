@@ -10,7 +10,7 @@ const router = express.Router();
 /* GET users listing. */
 router.get("/", function (req, res, next) {
 	User.find()
-		.sort("name")
+		.sort("firstname")
 		.exec()
 		.then((users) => {
 			res.send(users);
