@@ -1,5 +1,8 @@
 import express from "express";
 import User from "../models/user.js";
+import mongoose from "mongoose";
+
+const ObjectId = mongoose.Types.ObjectId;
 
 const router = express.Router();
 
@@ -47,5 +50,39 @@ router.post("/", (req, res, next) => {
 			next(err);
 		});
 });
+
+router.delete("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
+	req.user
+		.deleteOne()
+		.then(() => {
+			res.sendStatus(204);
+		})
+		.catch(next);
+});
+
+function loadUserFromParamsMiddleware(req, res, next) {
+	const userId = req.params.id;
+	if (!ObjectId.isValid(userId)) {
+		return userNotFound(res, userId);
+	}
+
+	let query = User.findById(userId);
+
+	query
+		.exec()
+		.then((user) => {
+			if (!user) {
+				return userNotFound(res, userId);
+			}
+
+			req.user = user;
+			next();
+		})
+		.catch(next);
+}
+
+function userNotFound(res, userId) {
+	return res.status(404).type("text").send(`No users found with ID ${userId}`);
+}
 
 export default router;
