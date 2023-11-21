@@ -1,5 +1,8 @@
 import express from "express";
 import Walk from "../models/walk.js";
+import mongoose from "mongoose";
+
+const ObjectId = mongoose.Types.ObjectId;
 
 const router = express.Router();
 
@@ -35,5 +38,39 @@ router.post("/", (req, res, next) => {
 			next(err);
 		});
 });
+
+router.delete("/:id", loadWalkFromParamsMiddleware, (req, res, next) => {
+	req.walk
+		.deleteOne()
+		.then(() => {
+			res.sendStatus(204);
+		})
+		.catch(next);
+});
+
+function loadWalkFromParamsMiddleware(req, res, next) {
+	const walkId = req.params.id;
+	if (!ObjectId.isValid(walkId)) {
+		return walkNotFound(res, walkId);
+	}
+
+	let query = Walk.findById(walkId);
+
+	query
+		.exec()
+		.then((walk) => {
+			if (!walk) {
+				return walkNotFound(res, walkId);
+			}
+
+			req.walk = walk;
+			next();
+		})
+		.catch(next);
+}
+
+function walkNotFound(res, walkId) {
+	return res.status(404).type("text").send(`No walk found with ID ${walkId}`);
+}
 
 export default router;
