@@ -1,6 +1,7 @@
 import express from "express";
 import Walk from "../models/walk.js";
 import mongoose from "mongoose";
+import requireJson from "../utils/requirejson.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -49,6 +50,34 @@ router.post("/", (req, res, next) => {
 			next(err);
 		});
 });
+
+router.patch(
+	"/:id",
+	requireJson,
+	loadWalkFromParamsMiddleware,
+	(req, res, next) => {
+		// Update only properties present in the request body
+		if (req.body.title !== undefined) {
+			req.walk.title = req.body.title;
+		}
+
+		if (req.body.path !== undefined) {
+			req.walk.path = req.body.path;
+		}
+
+		if (req.body.creator !== undefined) {
+			req.walk.creator = req.body.creator;
+		}
+
+		req.walk
+			.save()
+			.then((savedWalk) => {
+				// 	debug(`Updated walk "${savedWalk.title}"`);
+				res.send(savedWalk);
+			})
+			.catch(next);
+	}
+);
 
 router.delete("/:id", loadWalkFromParamsMiddleware, (req, res, next) => {
 	req.walk
