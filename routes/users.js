@@ -10,6 +10,20 @@ const router = express.Router();
 /* GET users listing. */
 router.get("/", function (req, res, next) {
 	User.find()
+		// .select(["firstname", "lastname"])
+		.sort("firstname")
+		.exec()
+		.then((users) => {
+			res.send(users);
+		})
+		.catch((err) => {
+			next(err);
+		});
+});
+
+router.get("/password", function (req, res, next) {
+	User.find()
+		.select(["localisation"])
 		.sort("firstname")
 		.exec()
 		.then((users) => {
