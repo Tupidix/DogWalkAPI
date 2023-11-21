@@ -23,6 +23,17 @@ router.get("/", function (req, res, next) {
 		});
 });
 
+router.get("/:id", (req, res, next) => {
+	Walk.findById(req.params.id)
+		.exec()
+		.then((users) => {
+			res.send(users);
+		})
+		.catch((err) => {
+			next(err);
+		});
+});
+
 /* POST new walk */
 router.post("/", (req, res, next) => {
 	// Create a new document from the JSON in the request body
