@@ -24,7 +24,7 @@ router.get("/", function (req, res, next) {
 		});
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	User.findById(req.params.id)
 		.exec()
 		.then((users) => {

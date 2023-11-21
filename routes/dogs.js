@@ -23,6 +23,17 @@ router.get("/", function (req, res, next) {
 		});
 });
 
+router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
+	Dog.findById(req.params.id)
+		.exec()
+		.then((dogs) => {
+			res.send(dogs);
+		})
+		.catch((err) => {
+			next(err);
+		});
+});
+
 /* POST new dog */
 router.post("/", (req, res, next) => {
 	// Create a new document from the JSON in the request body
