@@ -39,40 +39,38 @@ router.post("/", (req, res, next) => {
 		});
 });
 
-router.delete('/:id', loadDogFromParamsMiddleware, (req, res, next) => {
+router.delete("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
 	req.dog
-	  .deleteOne()
-	  .then(() => {
-		debug(`Deleted dog "${req.dog.name}"`);
-		res.sendStatus(204)
-		;
-	  })
-	  .catch(next);
-  });
+		.deleteOne()
+		.then(() => {
+			res.sendStatus(204);
+		})
+		.catch(next);
+});
 
 function loadDogFromParamsMiddleware(req, res, next) {
 	const dogId = req.params.id;
 	if (!ObjectId.isValid(dogId)) {
-	  return dogNotFound(res, dogId);
+		return dogNotFound(res, dogId);
 	}
-  
-	let query = Dog.findById(dogId);
-  
-	query
-	  .exec()
-	  .then(dog => {
-		if (!dog) {
-		  return dogNotFound(res, dogId);
-		}
-  
-		req.dog = dog;
-		next();
-	  })
-	  .catch(next);
-  }
 
-  function dogNotFound(res, dogId) {
-	return res.status(404).type('text').send(`No dog found with ID ${dogId}`);
-  }
+	let query = Dog.findById(dogId);
+
+	query
+		.exec()
+		.then((dog) => {
+			if (!dog) {
+				return dogNotFound(res, dogId);
+			}
+
+			req.dog = dog;
+			next();
+		})
+		.catch(next);
+}
+
+function dogNotFound(res, dogId) {
+	return res.status(404).type("text").send(`No dog found with ID ${dogId}`);
+}
 
 export default router;
