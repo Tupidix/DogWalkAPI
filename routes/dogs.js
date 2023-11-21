@@ -1,6 +1,7 @@
 import express from "express";
 import Dog from "../models/dog.js";
 import mongoose from "mongoose";
+import requireJson from "../utils/requirejson.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -49,6 +50,41 @@ router.post("/", (req, res, next) => {
 			next(err);
 		});
 });
+
+router.patch('/:id', requireJson, loadDogFromParamsMiddleware, (req, res, next) => {
+	// Update only properties present in the request body
+	if (req.body.name !== undefined) {
+		req.dog.name = req.body.name;
+	  }
+	
+	if (req.body.birthdate !== undefined) {
+		req.dog.birthdate = req.body.birthdate;
+	  }
+
+	if (req.body.breed !== undefined) {
+		req.dog.breed = req.body.breed;
+	  }
+	
+	if (req.body.master !== undefined) {
+		req.dog.master = req.body.master;
+	  }
+
+	if (req.body.dislike !== undefined) {
+		req.dog.dislike = req.body.dislike;
+	  }
+
+	if (req.body.picture !== undefined) {
+		req.dog.picture = req.body.picture;
+	}
+
+	req.dog
+	  .save()
+	  .then(savedDog => {
+		// debug(`Updated dog "${savedDog.name}"`);
+		res.send(savedDog);
+	  })
+	  .catch(next);
+  });
 
 router.delete("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
 	req.dog
