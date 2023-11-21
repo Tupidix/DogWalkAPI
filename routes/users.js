@@ -21,20 +21,7 @@ router.get("/", function (req, res, next) {
 		});
 });
 
-router.get("/password", function (req, res, next) {
-	User.find()
-		.select(["localisation"])
-		.sort("firstname")
-		.exec()
-		.then((users) => {
-			res.send(users);
-		})
-		.catch((err) => {
-			next(err);
-		});
-});
-
-router.get('/:id', (req, res, next) => {
+router.get("/:id", (req, res, next) => {
 	User.findById(req.params.id)
 		.exec()
 		.then((users) => {
@@ -43,7 +30,7 @@ router.get('/:id', (req, res, next) => {
 		.catch((err) => {
 			next(err);
 		});
-	});
+});
 
 /* POST new user */
 router.post("/", (req, res, next) => {
