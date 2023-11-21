@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/user.js";
 import mongoose from "mongoose";
+import requireJson from "../utils/requirejson.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -50,6 +51,54 @@ router.post("/", (req, res, next) => {
 			next(err);
 		});
 });
+
+router.patch(
+	"/:id",
+	requireJson,
+	loadUserFromParamsMiddleware,
+	(req, res, next) => {
+		// Update only properties present in the request body
+		if (req.body.firstname !== undefined) {
+			req.user.firstname = req.body.firstname;
+		}
+
+		if (req.body.lastname !== undefined) {
+			req.user.lastname = req.body.lastname;
+		}
+
+		if (req.body.email !== undefined) {
+			req.user.email = req.body.email;
+		}
+
+		if (req.body.password !== undefined) {
+			req.user.password = req.body.password;
+		}
+
+		if (req.body.birthdate !== undefined) {
+			req.user.birthdate = req.body.birthdate;
+		}
+
+		if (req.body.isAdmin !== undefined) {
+			req.user.isAdmin = req.body.isAdmin;
+		}
+
+		if (req.body.localisation !== undefined) {
+			req.user.localisation = req.body.localisation;
+		}
+
+		if (req.body.currentPath !== undefined) {
+			req.user.currentPath = req.body.currentPath;
+		}
+
+		req.user
+			.save()
+			.then((savedUser) => {
+				// 	debug(`Updated user "${savedUser.title}"`);
+				res.send(savedUser);
+			})
+			.catch(next);
+	}
+);
 
 router.delete("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user
