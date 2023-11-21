@@ -51,40 +51,69 @@ router.post("/", (req, res, next) => {
 		});
 });
 
-router.patch('/:id', requireJson, loadDogFromParamsMiddleware, (req, res, next) => {
-	// Update only properties present in the request body
-	if (req.body.name !== undefined) {
-		req.dog.name = req.body.name;
-	  }
-	
-	if (req.body.birthdate !== undefined) {
-		req.dog.birthdate = req.body.birthdate;
-	  }
+router.patch(
+	"/:id",
+	requireJson,
+	loadDogFromParamsMiddleware,
+	(req, res, next) => {
+		// Update only properties present in the request body
+		if (req.body.name !== undefined) {
+			req.dog.name = req.body.name;
+		}
 
-	if (req.body.breed !== undefined) {
-		req.dog.breed = req.body.breed;
-	  }
-	
-	if (req.body.master !== undefined) {
-		req.dog.master = req.body.master;
-	  }
+		if (req.body.birthdate !== undefined) {
+			req.dog.birthdate = req.body.birthdate;
+		}
 
-	if (req.body.dislike !== undefined) {
-		req.dog.dislike = req.body.dislike;
-	  }
+		if (req.body.breed !== undefined) {
+			req.dog.breed = req.body.breed;
+		}
 
-	if (req.body.picture !== undefined) {
-		req.dog.picture = req.body.picture;
+		if (req.body.master !== undefined) {
+			req.dog.master = req.body.master;
+		}
+
+		if (req.body.dislike !== undefined) {
+			req.dog.dislike = req.body.dislike;
+		}
+
+		if (req.body.picture !== undefined) {
+			req.dog.picture = req.body.picture;
+		}
+
+		req.dog
+			.save()
+			.then((savedDog) => {
+				// debug(`Updated dog "${savedDog.name}"`);
+				res.send(savedDog);
+			})
+			.catch(next);
 	}
+);
 
-	req.dog
-	  .save()
-	  .then(savedDog => {
-		// debug(`Updated dog "${savedDog.name}"`);
-		res.send(savedDog);
-	  })
-	  .catch(next);
-  });
+router.put(
+	"/:id",
+	requireJson,
+	loadDogFromParamsMiddleware,
+	(req, res, next) => {
+		// Update all properties (regardless of whether the are present in the request body or not)
+
+		req.dog.name = req.body.name;
+		req.dog.birthdate = req.body.birthdate;
+		req.dog.breed = req.body.breed;
+		req.dog.master = req.body.master;
+		req.dog.dislike = req.body.dislike;
+		req.dog.picture = req.body.picture;
+
+		req.dog
+			.save()
+			.then((savedDog) => {
+				debug(`Updated dog "${savedDog.name}"`);
+				res.send(savedDog);
+			})
+			.catch(next);
+	}
+);
 
 router.delete("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
 	req.dog

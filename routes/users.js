@@ -100,6 +100,32 @@ router.patch(
 	}
 );
 
+router.put(
+	"/:id",
+	requireJson,
+	loadUserFromParamsMiddleware,
+	(req, res, next) => {
+		// Update all properties (regardless of whether the are present in the request body or not)
+
+		req.user.firstname = req.body.firstname;
+		req.user.lastname = req.body.lastname;
+		req.user.email = req.body.email;
+		req.user.password = req.body.password;
+		req.user.birthdate = req.body.birthdate;
+		req.user.isAdmin = req.body.isAdmin;
+		req.user.localisation = req.body.localisation;
+		req.user.currentPath = req.body.currentPath;
+
+		req.user
+			.save()
+			.then((savedUser) => {
+				debug(`Updated user "${savedUser.firstname} ${savedUser.lastname}"`);
+				res.send(savedUser);
+			})
+			.catch(next);
+	}
+);
+
 router.delete("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user
 		.deleteOne()

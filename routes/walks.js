@@ -27,8 +27,8 @@ router.get("/", function (req, res, next) {
 router.get("/:id", (req, res, next) => {
 	Walk.findById(req.params.id)
 		.exec()
-		.then((users) => {
-			res.send(users);
+		.then((walks) => {
+			res.send(walks);
 		})
 		.catch((err) => {
 			next(err);
@@ -73,6 +73,27 @@ router.patch(
 			.save()
 			.then((savedWalk) => {
 				// 	debug(`Updated walk "${savedWalk.title}"`);
+				res.send(savedWalk);
+			})
+			.catch(next);
+	}
+);
+
+router.put(
+	"/:id",
+	requireJson,
+	loadWalkFromParamsMiddleware,
+	(req, res, next) => {
+		// Update all properties (regardless of whether the are present in the request body or not)
+
+		req.walk.title = req.body.title;
+		req.walk.path = req.body.path;
+		req.walk.creator = req.body.creator;
+
+		req.walk
+			.save()
+			.then((savedWalk) => {
+				debug(`Updated walk "${savedWalk.title}"`);
 				res.send(savedWalk);
 			})
 			.catch(next);
