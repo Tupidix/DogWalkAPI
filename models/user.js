@@ -30,6 +30,10 @@ const userSchema = new Schema({
 		type: Date,
 		required: true,
 	},
+	picture: {
+		type: String,
+		required: true,
+	},
 	isAdmin: {
 		type: Boolean,
 		default: false,
@@ -37,11 +41,11 @@ const userSchema = new Schema({
 	localisation: {
 		type: {
 			type: String,
-						enum: ["Point"],
+			enum: ["Point"],
 		},
 		coordinate: {
 			type: [Number],
-						validate: {
+			validate: {
 				validator: validateGeoJsonCoordinates,
 				message: "Path coordinates must be an array of two numbers",
 			},

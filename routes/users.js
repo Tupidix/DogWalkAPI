@@ -78,6 +78,10 @@ router.patch(
 			req.user.birthdate = req.body.birthdate;
 		}
 
+		if (req.body.picture !== undefined) {
+			req.user.picture = req.body.picture;
+		}
+
 		if (req.body.isAdmin !== undefined) {
 			req.user.isAdmin = req.body.isAdmin;
 		}
@@ -112,6 +116,7 @@ router.put(
 		req.user.email = req.body.email;
 		req.user.password = req.body.password;
 		req.user.birthdate = req.body.birthdate;
+		req.user.picture = req.body.picture;
 		req.user.isAdmin = req.body.isAdmin;
 		req.user.localisation = req.body.localisation;
 		req.user.currentPath = req.body.currentPath;
