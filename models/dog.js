@@ -19,9 +19,19 @@ const dogSchema = new Schema({
 		minlength: [3, "Dog breed is too short"],
 		maxlength: [40, "Dog breed is too long"],
 	},
-	master: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
-	dislike: [{ type: Schema.Types.ObjectId, ref: "Dog" }],
-	picture: { type: String, required: true },
+	master: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        }],
+        validate: {
+            validator: function (value) {
+                return value.length > 0;
+            },
+            message: "At least one master is required",
+        },
+        required: true,
+    },
 });
 
 export default mongoose.model("Dog", dogSchema);
