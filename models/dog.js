@@ -49,23 +49,4 @@ const dogSchema = new Schema({
 	picture: { type: String, required: true },
 });
 
-// function validateUser(value) {
-// 	if (!ObjectId.isValid(value)) {
-// 		throw new Error('Invalid user ID');
-// 	}
-  
-// 	return mongoose
-// 	  .model('User')
-// 	  .findOne({ _id: new ObjectId(value) })
-// 	  .exec()
-// 	  .then(user => {
-
-// 		if (!user) {
-// 		  throw new Error('User not found');
-// 		}
-  
-// 		return true;
-// 	  });
-//   }
-
 export default mongoose.model("Dog", dogSchema);
