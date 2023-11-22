@@ -119,7 +119,7 @@ router.put(
 		req.user
 			.save()
 			.then((savedUser) => {
-				debug(`Updated user "${savedUser.firstname} ${savedUser.lastname}"`);
+				//debug(`Updated user "${savedUser.firstname} ${savedUser.lastname}"`);
 				res.send(savedUser);
 			})
 			.catch(next);

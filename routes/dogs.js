@@ -108,7 +108,7 @@ router.put(
 		req.dog
 			.save()
 			.then((savedDog) => {
-				debug(`Updated dog "${savedDog.name}"`);
+				//debug(`Updated dog "${savedDog.name}"`);
 				res.send(savedDog);
 			})
 			.catch(next);

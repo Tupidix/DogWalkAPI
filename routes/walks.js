@@ -93,7 +93,7 @@ router.put(
 		req.walk
 			.save()
 			.then((savedWalk) => {
-				debug(`Updated walk "${savedWalk.title}"`);
+				//debug(`Updated walk "${savedWalk.title}"`);
 				res.send(savedWalk);
 			})
 			.catch(next);
