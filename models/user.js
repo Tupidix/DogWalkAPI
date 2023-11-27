@@ -7,13 +7,13 @@ const userSchema = new Schema({
 	firstname: {
 		type: String,
 		required: true,
-		minlength: [3, "Firstname is too short"],
+		minlength: [2, "Firstname is too short"],
 		maxlength: [30, "Firstname is too long"],
 	},
 	lastname: {
 		type: String,
 		required: true,
-		minlength: [3, "Lastname is too short"],
+		minlength: [2, "Lastname is too short"],
 		maxlength: [30, "Lastname is too long"],
 	},
 	email: {
