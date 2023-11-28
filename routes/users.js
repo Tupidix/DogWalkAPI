@@ -13,29 +13,30 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-	User.aggregate([
-		{
-			$lookup: {
-				from: "dogs",
-				localField: "_id",
-				foreignField: "master",
-				as: "nombreChiens"
-			}
-		},
-		{
-			$unwind: "$nombreChiens"
-		},
-		{
-			$group: {
-				_id: "$_id",
-				firstname: { $first: "$firstname" },
-				lastname: { $first: "$lastname" },
-				birthdate: { $first: "$birthdate" },
-				localisation: { $first: "$localisation" },
-				nombreChiens: { $sum: 1 }
-			}
-		}
-	])
+	// User.aggregate([
+	// 	{
+	// 		$lookup: {
+	// 			from: "dogs",
+	// 			localField: "_id",
+	// 			foreignField: "master",
+	// 			as: "nombreChiens"
+	// 		}
+	// 	},
+	// 	{
+	// 		$unwind: "$nombreChiens"
+	// 	},
+	// 	{
+	// 		$group: {
+	// 			_id: "$_id",
+	// 			firstname: { $first: "$firstname" },
+	// 			lastname: { $first: "$lastname" },
+	// 			birthdate: { $first: "$birthdate" },
+	// 			localisation: { $first: "$localisation" },
+	// 			nombreChiens: { $sum: 1 }
+	// 		}
+	// 	}
+	// ])
+	User.find()
 		.sort("firstname")
 		.exec()
 		.then((users) => {
