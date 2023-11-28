@@ -13,8 +13,29 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-	User.find()
-		// .select(["firstname", "lastname"])
+	User.aggregate([
+		{
+			$lookup: {
+				from: "dogs",
+				localField: "_id",
+				foreignField: "master",
+				as: "nombreChiens"
+			}
+		},
+		{
+			$unwind: "$nombreChiens"
+		},
+		{
+			$group: {
+				_id: "$_id",
+				firstname: { $first: "$firstname" },
+				lastname: { $first: "$lastname" },
+				birthdate: { $first: "$birthdate" },
+				localisation: { $first: "$localisation" },
+				nombreChiens: { $sum: 1 }
+			}
+		}
+	])
 		.sort("firstname")
 		.exec()
 		.then((users) => {
@@ -24,6 +45,44 @@ router.get("/", function (req, res, next) {
 			next(err);
 		});
 });
+
+//double aggrégation ?
+
+// User.aggregate([
+// 	{
+// 		$lookup: {
+// 			from: "dogs",
+// 			localField: "_id",
+// 			foreignField: "master",
+// 			as: "nombreChiens"
+// 		}
+// 	},
+// 	{
+// 		$unwind: "$nombreChiens"
+// 	},
+// {
+// 	$lookup: {
+// 		from: "walks",
+// 		localField: "_id",
+// 		foreignField: "creator",
+// 		as: "nombreBalades"
+// 	}
+// },
+// {
+// 	$unwind: "$nombreBalades"
+// },
+// {
+// 	$group: {
+// 		_id: "$_id",
+// 		firstname: { $first: "$firstname" },
+// 		lastname: { $first: "$lastname" },
+// 		birthdate: { $first: "$birthdate" },
+// 		localisation: { $first: "$localisation" },
+// 		nombreChiens: { $sum: 1 },
+//		nombreBalades: { $sum: 1 }
+// 	}
+// }
+// ])
 
 router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	User.findById(req.params.id)
