@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/user.js";
 import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
+import bcrypt from "bcrypt";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -97,19 +98,32 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 });
 
 /* POST new user */
-router.post("/", (req, res, next) => {
-	// Create a new document from the JSON in the request body
-	const newUser = new User(req.body);
-	// Save that document
-	newUser
-		.save()
-		.then((savedUser) => {
-			// Send the saved document in the response
-			res.send(savedUser);
-		})
-		.catch((err) => {
-			next(err);
-		});
+router.post("/", async (req, res, next) => {
+	try {
+        // Hachez le mot de passe avant de créer l'utilisateur
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        // Créez un nouvel utilisateur avec le mot de passe haché
+        const newUser = new User({
+            firstname: req.body.firstname,
+			lastname: req.body.lastname,
+			email: req.body.email,
+			password: hashedPassword,
+			birthdate: req.body.birthdate,
+			picture: req.body.picture,
+			isAdmin: req.body.isAdmin,
+			localisation: req.body.localisation,
+			currentPath: req.body.currentPath,
+        });
+
+        // Enregistrez le nouvel utilisateur
+        const savedUser = await newUser.save();
+
+        // Envoyez la réponse avec l'utilisateur sauvegardé
+        res.send(savedUser);
+    } catch (err) {
+        next(err);
+    }
 });
 
 router.patch(
