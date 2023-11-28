@@ -11,6 +11,17 @@ const router = express.Router();
 // 	res.send("Got a response from the dogs route");
 // });
 
+/**
+ * @swagger
+ * /dogs:
+ *  get:
+ *   summary: Get all dogs
+ *   description: Get all dogs
+ *   responses:
+ *    '200':
+ *      description: List of dogs
+*/
+
 /* GET dogs listing. */
 router.get("/", function (req, res, next) {
 	Dog.find()
