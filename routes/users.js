@@ -59,7 +59,7 @@ router.get("/", function (req, res, next) {
 		},
 		{
 			$sort: {
-			  name: 1
+			  firstname: 1
 			}
 		},
 		{
