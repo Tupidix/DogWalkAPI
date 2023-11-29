@@ -5,12 +5,12 @@ import { cleanUpDatabase } from "./utils.js";
 import User from "../models/user.js";
 
 // VIDER LA DB AVANT DE COMMENCER LES TESTS
-beforeEach(cleanUpDatabase);
 
 const date1 = new Date();
 const date2 = new Date();
 
 beforeEach(async () => {
+	await cleanUpDatabase();
 	// Créer un utilisateur
 	const user = new User({
 		firstname: "John",
@@ -44,6 +44,7 @@ beforeEach(async () => {
 });
 
 // Assurez-vous que la réponse contient les utilisateurs créés
+// Assurez-vous que la réponse contient les utilisateurs créés
 describe("GET /users", () => {
 	it("should retrieve the list of users", async () => {
 		const response = await supertest(app).get("/users");
@@ -53,37 +54,34 @@ describe("GET /users", () => {
 
 		// Assurez-vous que la réponse est au format JSON
 		expect(response.headers["content-type"]).toMatch(/json/);
+
+		// Assurez-vous que la réponse contient les utilisateurs créés
 		expect(response.body).toEqual([
 			{
-				__v: 0,
 				_id: expect.any(String),
 				firstname: "Jane",
 				lastname: "Doe",
-				email: "jane@jane.ch",
-				password: "12345678",
-				birthdate: date2.toISOString(),
+				birthdate: date2.toISOString(), // Assurez-vous que la date est au format ISO
 				isAdmin: false,
-				picture: "jane-doe.jpg",
 				localisation: {
 					type: "Point",
 					coordinate: [46.519653, 6.632273],
 				},
+				nombreChiens: 0, // Ajoutez d'autres propriétés si nécessaire
 			},
 			{
-				__v: 0,
 				_id: expect.any(String),
 				firstname: "John",
 				lastname: "Doe",
-				email: "john@john.ch",
-				password: "12345678",
-				birthdate: date1.toISOString(),
+				birthdate: date1.toISOString(), // Assurez-vous que la date est au format ISO
 				isAdmin: false,
-				picture: "john-doe.jpg",
 				localisation: {
 					type: "Point",
 					coordinate: [46.519653, 6.632273],
 				},
+				nombreChiens: 0, // Ajoutez d'autres propriétés si nécessaire
 			},
+			// Ajoutez d'autres objets d'utilisateur créés au besoin
 		]);
 	});
 });

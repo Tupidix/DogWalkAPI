@@ -9,15 +9,16 @@ const idUser = "655ca571cfeec8f6d96ac634";
 const idWalk = "655cc35a0beff0bfa6866985";
 
 // VIDER LA DB AVANT DE COMMENCER LES TESTS
-beforeEach(cleanUpDatabase);
 
 beforeEach(async () => {
+	await cleanUpDatabase();
+
 	// Créer un utilisateur
 	const user = new User({
 		_id: idUser,
-		firstname: "John",
-		lastname: "Doe",
-		email: "john@john.ch",
+		firstname: "Patrick",
+		lastname: "Marques",
+		email: "pat@pat.ch",
 		password: "12345678",
 		birthdate: new Date("1997-10-24"),
 		picture: "john-doe.jpg",
@@ -81,7 +82,7 @@ describe("PUT and DELETE /walks/:id", () => {
 					coordinate: [12.9714, 77.5946],
 				},
 			],
-			creator: [idUser],
+			creator: idUser,
 		});
 	});
 
