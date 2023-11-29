@@ -198,6 +198,26 @@ router.patch(
 	}
 );
 
+router.patch("/:id/join/:walkId", loadUserFromParamsMiddleware, (req, res, next) => {
+	req.user.currentPath = req.params.walkId;
+	req.user
+		.save()
+		.then((savedUser) => {
+			res.send(savedUser);
+		})
+		.catch(next);
+});
+
+router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
+	req.user.currentPath = null;
+	req.user
+		.save()
+		.then((savedUser) => {
+			res.send(savedUser);
+		})
+		.catch(next);
+});
+
 router.put(
 	"/:id",
 	requireJson,
