@@ -6,38 +6,44 @@ import usersRouter from "./routes/users.js";
 import dogsRouter from "./routes/dogs.js";
 import walksRouter from "./routes/walks.js";
 import mongoose from "mongoose";
-import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
-mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost/DogWalkAPI');
+mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/DogWalkAPI");
 
 const app = express();
 
 const swaggerOptions = {
 	definition: {
-	  openapi: '3.0.0',
-	  info: {
-		title: 'Dog Walk API',
-		version: 1.0,
-		description: 'A simple Express API for dog walking',
-	  },
-	  components: {
-	  },
-	  security: {
-	  },
-	  servers: [
-		{
-		  url: 'http://localhost:3000',
+		openapi: "3.0.0",
+		info: {
+			title: "Dog Walk API",
+			version: 1.0,
+			description: "A simple Express API for dog walking",
 		},
-	  ],
+		components: {},
+		security: {},
+		servers: [
+			{
+				url: "http://localhost:3000",
+			},
+		],
 	},
-	apis: ['./routes/*.js', './models/*.js'],
-  };
-  
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+	apis: ["./routes/*.js", "./models/*.js"],
+};
 
-app.use(logger("dev"));
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+/*
+This middleware logger will log all HTTP requests made to the application. You do not need this information while testing (you already know that you are calling POST /users in this test).
+
+You can conditionally omit this middleware in test mode:
+ */
+if (process.env.NODE_ENV !== "test") {
+	app.use(logger("dev"));
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
