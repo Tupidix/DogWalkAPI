@@ -11,80 +11,70 @@ const router = express.Router();
 // router.get("/", function (req, res, next) {
 // 	res.send("Got a response from the users route");
 // });
-
-/* GET users listing. */
 router.get("/", function (req, res, next) {
-	// User.aggregate([
-	// 	{
-	// 		$lookup: {
-	// 			from: "dogs",
-	// 			localField: "_id",
-	// 			foreignField: "master",
-	// 			as: "nombreChiens"
-	// 		}
-	// 	},
-	// 	{
-	// 		$unwind: "$nombreChiens"
-	// 	},
-	// 	{
-	// 		$group: {
-	// 			_id: "$_id",
-	// 			firstname: { $first: "$firstname" },
-	// 			lastname: { $first: "$lastname" },
-	// 			birthdate: { $first: "$birthdate" },
-	// 			localisation: { $first: "$localisation" },
-	// 			nombreChiens: { $sum: 1 }
-	// 		}
-	// 	}
-	// ])
-	User.find()
-		.sort("firstname")
-		.exec()
-		.then((users) => {
-			res.send(users);
-		})
-		.catch((err) => {
-			next(err);
-		});
+	
+	//Affiche tous les utilisateurs qui ont au moins un chien avec le nombre de chiens
+	User.aggregate([
+		{
+			$lookup: {
+				from: "dogs",
+				localField: "_id",
+				foreignField: "master",
+				as: "nombreChiens",
+			}
+		},
+		{
+			$unwind: {
+				path: '$nombreChiens',
+				preserveNullAndEmptyArrays: true
+			  }
+		},
+		{
+			$addFields: {
+			  nombreChiens: {
+				$cond: {
+				  if: '$nombreChiens',
+				  then: 1,
+				  else: 0
+				}
+			  }
+			}
+		  },
+		{
+			$group: {
+				_id: "$_id",
+				firstname: { $first: "$firstname" },
+				lastname: { $first: "$lastname" },
+				birthdate: { $first: "$birthdate" },
+				localisation: { $first: "$localisation" },
+				isAdmin: { $first: "$isAdmin" },
+				nombreChiens: { $sum: { $cond: [{ $ifNull: ["$nombreChiens", false] }, 1, 0] } }
+			}
+		}
+	])
+	.exec()
+	.then((users) => {
+		res.send(users);
+	})
+	.catch((err) => {
+		next(err);
+	});
 });
 
-//double aggrégation ?
-
-// User.aggregate([
-// 	{
-// 		$lookup: {
-// 			from: "dogs",
-// 			localField: "_id",
-// 			foreignField: "master",
-// 			as: "nombreChiens"
-// 		}
-// 	},
-// 	{
-// 		$unwind: "$nombreChiens"
-// 	},
-// {
-// 	$lookup: {
-// 		from: "walks",
-// 		localField: "_id",
-// 		foreignField: "creator",
-// 		as: "nombreBalades"
-// 	}
-// },
-// {
-// 	$unwind: "$nombreBalades"
-// },
-// {
-// 	$group: {
-// 		_id: "$_id",
-// 		firstname: { $first: "$firstname" },
-// 		lastname: { $first: "$lastname" },
-// 		birthdate: { $first: "$birthdate" },
-// 		localisation: { $first: "$localisation" },
-// 		nombreChiens: { $sum: 1 },
-//		nombreBalades: { $sum: 1 }
-// 	}
-// }
-// ])
+/* GET users listing. */
+router.get("/admin", function (req, res, next) {
+	//affiche que les admins
+	const query = {isAdmin: true};
+	User.find(query)
+        .sort("firstname")
+        .exec()
+        .then((users) => {
+            res.send(users);
+        })
+        .catch((err) => {
+            next(err);
+        });
+});
 
 router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	User.findById(req.params.id)
