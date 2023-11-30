@@ -88,7 +88,7 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  *   parameters:
  *    - in: header
  *      name: Authorization
- *      example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+ *      description: The auth token generated from the login route (with Bearer in front of it like: 'Bearer xxxxxxxxxx')
  *      schema:
  *       type: string
  *       format: jwt
