@@ -9,6 +9,23 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /users:
+ *  get:
+ *   summary: List all users that have at least one dog
+ *   tags:
+ *    - 'users'
+ *   description: List all users
+ *   responses:
+ *    '200':
+ *	    description: List of users
+ *    '404':
+ *      description: No users found
+ *    '500':
+ *      description: Some error happened
+ */
+
 // router.get("/", function (req, res, next) {
 // 	res.send("Got a response from the users route");
 // });
@@ -90,6 +107,22 @@ function queryUser(req) {
 	let query = User.find();
 	return query;
   }
+/**
+ * @swagger
+ * /admin:
+ *  get:
+ *   summary: List all admins
+ *   tags:
+ *    - 'users'
+ *   description: List all admins
+ *   responses:
+ *    '200':
+ *	    description: List of users
+ *    '404':
+ *      description: No users found
+ *    '500':
+ *      description: Some error happened
+ */
 
 /* GET users listing. */
 router.get("/admin", function (req, res, next) {
@@ -116,6 +149,76 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 			next(err);
 		});
 });
+
+/**
+ * @swagger
+ * /users:
+ *  post:
+ *   summary: 'Create a user'
+ *   tags: 
+ *    - users
+ *   requestBody:
+ *    description: The user to create
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        firstname:
+ *         type: string
+ *         description: The user's firstname.
+ *        lastname:
+ *         type: string
+ *         description: The user's lastname.
+ *        email:
+ *         type: string
+ *         description: The user's email.
+ *        password:
+ *         type: string
+ *         description: The user's password.
+ *        birthdate:
+ *         type: string
+ *         format: date
+ *         description: The user's birthdate.
+ *        picture:
+ *         type: string
+ *         description: The user's picture.
+ *        isAdmin:
+ *         type: boolean
+ *         description: The user's admin status.
+ *        localisation:
+ *         type: object
+ *         properties:
+ *          type:
+ *           type: string
+ *           enum: Point
+ *           coordinate:
+ *            type: array
+ *             items:
+ *              type: number
+ *              description: The user's localisation.
+ *        currentPath:
+ *          type: string
+ *          format: ObjectId	
+ *        required:
+ *         - firstname
+ *         - lastname
+ *         - email
+ *         - password
+ *         - birthdate
+ *         - picture
+ *         - isAdmin
+ *         - localisation
+ *         - currentPath
+ *        responses:
+ *         200:
+ *          description: The dog was created
+ *         404:
+ *          description: The dog was not found, this dog's ID might not exist
+ *         500:
+ *          description: Some error happened
+ */
 
 /* POST new user */
 router.post("/", async (req, res, next) => {

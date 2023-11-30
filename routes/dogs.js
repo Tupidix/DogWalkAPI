@@ -40,7 +40,7 @@ router.get("/", function (req, res, next) {
  * @swagger
  * '/dogs/{id}':
  *  get:
- *   summary: 'List a dog by ID'
+ *   summary: 'List the details of a dog'
  *   tags: 
  *    - dogs
  *   parameters:
@@ -98,10 +98,6 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  *         type: string
  *         format: ObjectId
  *         example: 5f9d88a2d0b4d8f8c4b3b3f7
- *        dislike:
- *         type: string
- *         format: ObjectId
- *         example: 5f9d88a2d0b4d8f8c4b3b3d7
  *        picture:
  *         type: string
  *         example: picture.jpg
@@ -133,7 +129,7 @@ router.post("/", (req, res, next) => {
  * @swagger
  * '/dogs/{id}':
  *  patch:
- *    summary: 'Update certain properties of a dog by ID'
+ *    summary: 'Update certain properties of a dog'
  *    tags:
  *      - dogs
  *    parameters:
@@ -223,7 +219,7 @@ router.patch(
  * @swagger
  * '/dogs/{id}':
  *  put:
- *    summary: 'Update all properties of a dog by ID'
+ *    summary: 'Update all properties of a dog'
  *    tags:
  *      - dogs
  *    parameters:
@@ -297,7 +293,7 @@ router.put(
  * @swagger
  * '/dogs/{id}':
  *  delete:
- *   summary: 'Delete a dog by ID'
+ *   summary: 'Delete a dog'
  *   tags: 
  *    - dogs
  *   parameters:

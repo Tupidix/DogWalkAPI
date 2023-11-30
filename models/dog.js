@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 /**
  * @swagger
- * components:
+ * component:
  *  schemas:
  *  Dog:
  *    type: object
@@ -37,7 +37,6 @@ import mongoose from "mongoose";
  *        - birthdate
  *        - breed
  *        - master
- *        - dislike
  *        - picture
  *      example:
  *        name: Rex

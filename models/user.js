@@ -3,7 +3,7 @@ import { validateGeoJsonCoordinates } from "../utils/geo.js";
 
 /**
  * @swagger
- * components:
+ * component:
  *  schemas:
  *  User:
  *    type: object
@@ -119,7 +119,23 @@ const userSchema = new Schema({
             },
         },
     },
-    currentPath: { type: Schema.Types.ObjectId, ref: "Walk" },
-});
+    currentPath: {
+		type: Schema.Types.ObjectId,
+		ref: "Walk",
+		validate: {
+			validator: async function (value) {
+				const walk = await mongoose.model("Walk").findOne({ _id: value }).exec();
+				if (!walk) {
+
+					if(value === null) {
+						return true;
+					}
+					throw new Error(`This walk doesn't exist: ${value}`);
+				}
+
+				return true; // Le l'ID du user existe
+			},
+		},
+	},});
 
 export default mongoose.model("User", userSchema);
