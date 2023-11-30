@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
 import bcrypt from "bcrypt";
 import * as utils from '../utils/pagination.js';
+import { broadcastMessage } from "../messaging.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -305,6 +306,7 @@ router.patch("/:id/join/:walkId", loadUserFromParamsMiddleware, (req, res, next)
 	req.user
 		.save()
 		.then((savedUser) => {
+			broadcastMessage({ message: "Quelqu'un a rejoins une balade, rejoins le !"});
 			res.send(savedUser);
 		})
 		.catch(next);
