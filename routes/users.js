@@ -271,6 +271,76 @@ router.post("/", async (req, res, next) => {
     }
 });
 
+/**
+ * @swagger
+ * /users:
+ *  patch:
+ *   summary: 'Update some details from a user'
+ *   tags: 
+ *    - users
+ *   requestBody:
+ *    description: The user to create
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        firstname:
+ *         type: string
+ *         description: The user's firstname.
+ *         example: John
+ *        lastname:
+ *         type: string
+ *         description: The user's lastname.
+ *         example: Doe
+ *        email:
+ *         type: string
+ *         description: The user's email.
+ *         example: 'john@doe.ch'
+ *        password:
+ *         type: string
+ *         description: The user's password.
+ *         example: password
+ *        birthdate:
+ *         type: string
+ *         format: date
+ *         description: The user's birthdate.
+ *         example: 2019-01-01
+ *        picture:
+ *         type: string
+ *         description: The user's picture.
+ *         example: picture.jpg
+ *        isAdmin:
+ *         type: boolean
+ *         description: The user's admin status.
+ *         example: false
+ *        localisation:
+ *         type: array
+ *         example: [0,0]
+ *        currentPath:
+ *          type: string
+ *          format: ObjectId
+ *          example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *   required:
+ *    - firstname
+ *    - lastname
+ *    - email
+ *    - password
+ *    - birthdate
+ *    - picture
+ *    - isAdmin
+ *    - localisation
+ *    - currentPath
+ *   responses:
+ *     200:
+ *       description: The dog was created
+ *     404:
+ *       description: The dog was not found, this dog's ID might not exist
+ *     500:
+ *       description: Some error happened
+ */
+
 router.patch(
 	"/:id",
 	requireJson,
@@ -323,6 +393,8 @@ router.patch(
 	}
 );
 
+
+
 router.patch("/:id/join/:walkId", loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user.currentPath = req.params.walkId;
 	req.user
@@ -342,6 +414,76 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
 		})
 		.catch(next);
 });
+
+/**
+ * @swagger
+ * /users/{id}:
+ *  put:
+ *   summary: 'Update all details from a user'
+ *   tags: 
+ *    - users
+ *   requestBody:
+ *    description: The user to create
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        firstname:
+ *         type: string
+ *         description: The user's firstname.
+ *         example: John
+ *        lastname:
+ *         type: string
+ *         description: The user's lastname.
+ *         example: Doe
+ *        email:
+ *         type: string
+ *         description: The user's email.
+ *         example: 'john@doe.ch'
+ *        password:
+ *         type: string
+ *         description: The user's password.
+ *         example: password
+ *        birthdate:
+ *         type: string
+ *         format: date
+ *         description: The user's birthdate.
+ *         example: 2019-01-01
+ *        picture:
+ *         type: string
+ *         description: The user's picture.
+ *         example: picture.jpg
+ *        isAdmin:
+ *         type: boolean
+ *         description: The user's admin status.
+ *         example: false
+ *        localisation:
+ *         type: array
+ *         example: [0,0]
+ *        currentPath:
+ *          type: string
+ *          format: ObjectId
+ *          example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *   required:
+ *    - firstname
+ *    - lastname
+ *    - email
+ *    - password
+ *    - birthdate
+ *    - picture
+ *    - isAdmin
+ *    - localisation
+ *    - currentPath
+ *   responses:
+ *     200:
+ *       description: The dog was created
+ *     404:
+ *       description: The dog was not found, this dog's ID might not exist
+ *     500:
+ *       description: Some error happened
+ */
 
 router.put(
 	"/:id",
@@ -369,6 +511,29 @@ router.put(
 			.catch(next);
 	}
 );
+
+/**
+ * @swagger
+ * /users/{id}:
+ *  delete:
+ *   summary: Delete a user
+ *   tags:
+ *    - 'users'
+ *   description: Delete a user
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     description: The user's ID
+ *     required: true
+ *   responses:
+ *    '204':
+ *     description: The user was deleted
+ *    '404':
+ *     description: The user was not found, this user's ID might not exist
+ *    '500':
+ *     description: Some error happened 
+ */
 
 router.delete("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user
