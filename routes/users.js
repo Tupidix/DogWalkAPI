@@ -109,7 +109,7 @@ function queryUser(req) {
   }
 /**
  * @swagger
- * /admin:
+ * /users/admin:
  *  get:
  *   summary: List all admins
  *   tags:
