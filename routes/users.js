@@ -25,8 +25,6 @@ const signJwt = promisify(jwt.sign);
  *   responses:
  *    '200':
  *      description: List of users
- *    '401':
- *      description: You need to be authenticated to do that
  *    '404':
  *      description: No users found
  *    '500':
@@ -243,8 +241,6 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *   responses:
  *     200:
  *       description: The user was created
- *     404:
- *       description: The user was not found, this user's ID might not exist
  *     500:
  *       description: Some error happened
  */
@@ -312,7 +308,7 @@ router.post("/", async (req, res, next) => {
  *    - currentPath
  *   responses:
  *     200:
- *       description: You're connected
+ *       description: You're connected and receive a welcome message and a token
  *     404:
  *       description: Login infos might not be correct
  *     500:
@@ -347,11 +343,17 @@ router.post("/login", (req, res, next) => {
 
 /**
  * @swagger
- * /users:
+ * /users/{id}:
  *  patch:
  *   summary: 'Update some details from a user'
  *   tags: 
  *    - users
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     description: The user's ID
+ *     required: true
  *   requestBody:
  *    description: The user to create
  *    required: true
@@ -479,7 +481,7 @@ router.patch(
  *    - users
  *   parameters:
  *   - in: path
- *     name: userId
+ *     name: id
  *     type: string
  *     description: The user's ID
  *     required: true
@@ -504,7 +506,7 @@ router.patch(
  *     401:
  *       description: You need to be authenticated to do that
  *     404:
- *       description: The user was not found, this user's ID might not exist
+ *       description: The user was not found, this user's ID or the walk's ID might not exist
  *     500:
  *       description: Some error happened
  */
@@ -534,7 +536,7 @@ router.patch(
  *    - users
  *   parameters:
  *   - in: path
- *     name: userId
+ *     name: id
  *     type: string
  *     description: The user's ID
  *     required: true
@@ -550,7 +552,7 @@ router.patch(
  *    - currentPath
  *   responses:
  *     200:
- *       description: The user was created
+ *       description: The user left the walk and isn't in a path at the moment
  *     401:
  *       description: You need to be authenticated to do that
  *     404:

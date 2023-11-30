@@ -88,6 +88,10 @@ router.get("/:id", (req, res, next) => {
  *   tags:
  *    - 'walks'
  *   description: Create a walk
+ *   headers:
+ *    Authorization: Bearer my-token
+ *    Accept: application/json
+ *    required: true
  *   requestBody:
  *      description: The fields to update
  *      content:
