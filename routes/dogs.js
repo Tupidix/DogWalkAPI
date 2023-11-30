@@ -57,8 +57,6 @@ router.get("/", function (req, res, next) {
  *   responses:
  *    200:
  *     description: The dog's details by id
- *    401:
- *     description: You need to be authenticated to do that
  *    404:
  *     description: The dog was not found, this dogs might not exist
  *    500:
@@ -317,8 +315,6 @@ router.put(
  *   responses:
  *     204:
  *       description: The dog was deleted
- *     401:
- *       description: You need to be authenticated to do that
  *     404:
  *       description: The dog was not found, this dog's ID might not exist
  *     500:
