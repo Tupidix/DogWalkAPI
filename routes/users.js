@@ -168,56 +168,58 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *        firstname:
  *         type: string
  *         description: The user's firstname.
+ *         example: John
  *        lastname:
  *         type: string
  *         description: The user's lastname.
+ *         example: Doe
  *        email:
  *         type: string
  *         description: The user's email.
+ *         example: 'john@doe.ch'
  *        password:
  *         type: string
  *         description: The user's password.
+ *         example: password
  *        birthdate:
  *         type: string
  *         format: date
  *         description: The user's birthdate.
+ *         example: 2019-01-01
  *        picture:
  *         type: string
  *         description: The user's picture.
+ *         example: picture.jpg
  *        isAdmin:
  *         type: boolean
  *         description: The user's admin status.
+ *         example: false
  *        localisation:
- *         type: object
- *         properties:
- *          type:
- *           type: string
- *           enum: Point
- *           coordinate:
- *            type: array
- *             items:
- *              type: number
- *              description: The user's localisation.
+ *         type: array
+ *         example: [0,0]
  *        currentPath:
  *          type: string
- *          format: ObjectId	
- *        required:
- *         - firstname
- *         - lastname
- *         - email
- *         - password
- *         - birthdate
- *         - picture
- *         - isAdmin
- *         - localisation
- *         - currentPath
- *        responses:
- *         200:
- *          description: The dog was created
- *         404:
- *          description: The dog was not found, this dog's ID might not exist
- *         500:
- *          description: Some error happened
+ *          format: ObjectId
+ *          example: 5f9d88a2d0b4d8f8c4b3b3f7
+ * 
+ *       required:
+ *        - firstname
+ *        - lastname
+ *        - email
+ *        - password
+ *        - birthdate
+ *        - picture
+ *        - isAdmin
+ *        - localisation
+ *        - currentPath
+ *
+ *       responses:
+ *        200:
+ *         description: The dog was created
+ *        404:
+ *         description: The dog was not found, this dog's ID might not exist
+ *        500:
+ *         description: Some error happened
  */
 
 /* POST new user */
