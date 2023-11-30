@@ -279,6 +279,7 @@ router.post("/login", (req, res, next) => {
 	.exec()
 	.then((user) => {
 		if(!user) return res.sendStatus(401);
+		if(!req.body.password) return res.sendStatus(401);
 		return bcrypt.compare(req.body.password, user.password).then(valid => {
 			if(!valid) return res.sendStatus(401);
 			res.send(`Bienvenue ${user.firstname} ${user.lastname}`);
