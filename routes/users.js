@@ -25,6 +25,8 @@ const signJwt = promisify(jwt.sign);
  *   responses:
  *    '200':
  *      description: List of users
+ *    '401':
+ *      description: You need to be authenticated to do that
  *    '404':
  *      description: No users found
  *    '500':
@@ -126,6 +128,8 @@ function queryUser(req) {
  *   responses:
  *    '200':
  *	    description: List of users
+ *    '401':
+ *      description: You need to be authenticated to do that
  *    '404':
  *      description: No users found
  *    '500':
@@ -163,6 +167,8 @@ router.get("/admin", function (req, res, next) {
  *   responses:
  *    200:
  *     description: The user description by id
+ *    401:
+ *     description: You need to be authenticated to do that
  *    404:
  *     description: The user was not found, this user's ID might not exist
  *    500:
@@ -403,6 +409,8 @@ router.post("/login", (req, res, next) => {
  *   responses:
  *     200:
  *       description: The user was created
+ *     401:
+ *       description: You need to be authenticated to do that
  *     404:
  *       description: The user was not found, this user's ID might not exist
  *     500:
@@ -493,6 +501,8 @@ router.patch(
  *   responses:
  *     200:
  *       description: The user was created
+ *     401:
+ *       description: You need to be authenticated to do that
  *     404:
  *       description: The user was not found, this user's ID might not exist
  *     500:
@@ -541,6 +551,8 @@ router.patch(
  *   responses:
  *     200:
  *       description: The user was created
+ *     401:
+ *       description: You need to be authenticated to do that
  *     404:
  *       description: The user was not found, this user's ID might not exist
  *     500:
@@ -628,6 +640,8 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
  *   responses:
  *     200:
  *       description: The user was created
+ *     401:
+ *       description: You need to be authenticated to do that
  *     404:
  *       description: The user was not found, this user's ID might not exist
  *     500:
@@ -678,6 +692,8 @@ router.put(
  *   responses:
  *    '204':
  *     description: The user was deleted
+ *    '401':
+ *     description: You need to be authenticated to do that
  *    '404':
  *     description: The user was not found, this user's ID might not exist
  *    '500':
