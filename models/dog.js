@@ -5,46 +5,46 @@ import mongoose from "mongoose";
  * @swagger
  * component:
  *  schemas:
- *  Dog:
- *    type: object
- *    properties:
- *      _id:
- *        type: string
- *        format: oid
- *        description: The unique identifier of the dog.
- *      name:
- *        type: string
- *        description: The dog's name.
- *      birthdate:
- *        type: string
- *        format: date
- *      breed:
- *        type: string
- *      master:
- *        type: array
- *        items:
+ *    Dogs:
+ *      type: object
+ *      properties:
+ *        _id:
  *          type: string
- *          format: ObjectId
- *      dislike:
+ *          format: oid
+ *          description: The unique identifier of the dog.
+ *        name:
+ *          type: string
+ *          description: The dog's name.
+ *        birthdate:
+ *          type: string
+ *          format: date
+ *        breed:
+ *          type: string
+ *        master:
  *          type: array
  *          items:
  *            type: string
  *            format: ObjectId
- *      picture:
- *        type: string
- *      required:
- *        - name
- *        - birthdate
- *        - breed
- *        - master
- *        - picture
- *      example:
- *        name: Rex
- *        birthdate: 2019-01-01
- *        breed: Labrador
- *        master: 5f9d88a2d0b4d8f8c4b3b3f7
- *        dislike: 5f9d88a2d0b4d8f8c4b3b3f7
- *        picture: picture.jpg
+ *        dislike:
+ *            type: array
+ *            items:
+ *              type: string
+ *              format: ObjectId
+ *        picture:
+ *          type: string
+ *        required:
+ *          - name
+ *          - birthdate
+ *          - breed
+ *          - master
+ *          - picture
+ *        example:
+ *          name: Rex
+ *          birthdate: 2019-01-01
+ *          breed: Labrador
+ *          master: 5f9d88a2d0b4d8f8c4b3b3f7
+ *          dislike: 5f9d88a2d0b4d8f8c4b3b3f7
+ *          picture: picture.jpg
  */
 
 const Schema = mongoose.Schema;

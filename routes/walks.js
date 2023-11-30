@@ -13,6 +13,28 @@ const router = express.Router();
 // 	res.send("Got a response from the walks route");
 // });
 
+
+/**
+ * @swagger
+ * /walks:
+ *  get:
+ *   summary: List all walks
+ *   tags:
+ *    - 'walks'
+ *   description: List all walks
+ *   responses:
+ *    '200':
+ *      description: List of walks
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Walks'
+ *    '404':
+ *      description: No users found
+ *    '500':
+ *      description: Some error happened
+ */
+
 /* GET walks listing. */
 router.get("/", function (req, res, next) {
 	Walk.find()
@@ -26,6 +48,28 @@ router.get("/", function (req, res, next) {
 		});
 });
 
+/**
+ * @swagger
+ * /walks/{id}:
+ *  get:
+ *   summary: 'List the details of a walk'
+ *   tags:
+ *    - 'walks'
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     description: The user's ID
+ *     required: true
+ *   responses:
+ *    200:
+ *     description: The walk description by id
+ *    404:
+ *     description: The walk was not found, this walk's ID might not exist
+ *    500:
+ *     description: Some error happened
+ */
+
 router.get("/:id", (req, res, next) => {
 	Walk.findById(req.params.id)
 		.exec()
@@ -36,6 +80,25 @@ router.get("/:id", (req, res, next) => {
 			next(err);
 		});
 });
+
+/**
+ * @swagger
+ * /walks:
+ *  post:
+ *   summary: Create a walk
+ *   tags:
+ *    - 'walks'
+ *   description: Create a walk
+ *   responses:
+ *    '200':
+ *      description: List of walks
+ *      content:
+ *        application/json:
+ *    '404':
+ *      description: No users found
+ *    '500':
+ *      description: Some error happened
+ */
 
 /* POST new walk */
 router.post("/", authenticate, (req, res, next) => {
@@ -102,6 +165,29 @@ router.put(
 			.catch(next);
 	}
 );
+
+/**
+ * @swagger
+ * /walks/{id}:
+ *  delete:
+ *   summary: Delete a walk
+ *   tags:
+ *    - 'walks'
+ *   description: Delete a walk
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     description: The walk's ID
+ *     required: true
+ *   responses:
+ *    '204':
+ *     description: The walk was deleted
+ *    '404':
+ *     description: The walk was not found, this walk's ID might not exist
+ *    '500':
+ *     description: Some error happened 
+ */
 
 router.delete("/:id", loadWalkFromParamsMiddleware, (req, res, next) => {
 	req.walk

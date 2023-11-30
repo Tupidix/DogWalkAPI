@@ -5,68 +5,68 @@ import { validateGeoJsonCoordinates } from "../utils/geo.js";
  * @swagger
  * component:
  *  schemas:
- *  User:
- *    type: object
- *    properties:
- *       firstname:
- *         type: string
- *         description: The user's firstname.
- *       lastname:
- *         type: string
- *         description: The user's lastname.
- *       email:
- *         type: string
- *         description: The user's email.
- *       password:
- *         type: string
- *         description: The user's password.
- *       birthdate:
- *         type: string
- *         format: date
- *       picture:
- *         type: string
- *         description: The user's picture.
- *       isAdmin:
- *         type: boolean
- *         description: The user's admin status.
- *       localisation:
- *         type: object
- *         properties:
- *           type:
- *             type: string
- *             enum: Point
- *           coordinate:
- *             type: array
- *             items:
- *               type: number
- *         description: The user's localisation.
- *       currentPath:
- *         type: string
- *         format: ObjectId
- * 
- *       required:
- *         - firstname
- *         - lastname
- *         - email
- *         - password
- *         - birthdate
- *         - picture
- *         - isAdmin
- *         - localisation
- *         - currentPath
- * 
- *       example:
- *         firstname: John
- *         lastname: Doe
- *         email: 'john@doe.ch'
- *         password: password
- *         birthdate: 2019-01-01
- *         picture: picture.jpg
- *         isAdmin: false
+ *    Users:
+ *      type: object
+ *      properties:
+ *         firstname:
+ *           type: string
+ *           description: The user's firstname.
+ *         lastname:
+ *           type: string
+ *           description: The user's lastname.
+ *         email:
+ *           type: string
+ *           description: The user's email.
+ *         password:
+ *           type: string
+ *           description: The user's password.
+ *         birthdate:
+ *           type: string
+ *           format: date
+ *         picture:
+ *           type: string
+ *           description: The user's picture.
+ *         isAdmin:
+ *           type: boolean
+ *           description: The user's admin status.
  *         localisation:
- *           type: Point
- *           coordinate: [0, 0]
- *         currentPath: 5f9d88a2d0b4d8f8c4b3b3f7
+ *           type: object
+ *           properties:
+ *             type:
+ *               type: string
+ *               enum: Point
+ *             coordinate:
+ *               type: array
+ *               items:
+ *                 type: number
+ *           description: The user's localisation.
+ *         currentPath:
+ *           type: string
+ *           format: ObjectId
+ * 
+ *         required:
+ *           - firstname
+ *           - lastname
+ *           - email
+ *           - password
+ *           - birthdate
+ *           - picture
+ *           - isAdmin
+ *           - localisation
+ *           - currentPath
+ * 
+ *         example:
+ *           firstname: John
+ *           lastname: Doe
+ *           email: 'john@doe.ch'
+ *           password: password
+ *           birthdate: 2019-01-01
+ *           picture: picture.jpg
+ *           isAdmin: false
+ *           localisation:
+ *             type: Point
+ *             coordinate: [0, 0]
+ *           currentPath: 5f9d88a2d0b4d8f8c4b3b3f7
  */
 
 const Schema = mongoose.Schema;

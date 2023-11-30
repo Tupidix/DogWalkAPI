@@ -24,7 +24,11 @@ const signJwt = promisify(jwt.sign);
  *   description: List all users
  *   responses:
  *    '200':
- *	    description: List of users
+ *      description: List of users
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Users'
  *    '404':
  *      description: No users found
  *    '500':
@@ -224,13 +228,6 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *         type: boolean
  *         description: The user's admin status.
  *         example: false
- *        localisation:
- *         type: array
- *         example: [0,0]
- *        currentPath:
- *          type: string
- *          format: ObjectId
- *          example: 5f9d88a2d0b4d8f8c4b3b3f7
  *   required:
  *    - firstname
  *    - lastname
@@ -276,6 +273,74 @@ router.post("/", async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
+});
+
+/**
+ * @swagger
+ * /users/login:
+ *  patch:
+ *   summary: 'Permits the user to connect'
+ *   tags: 
+ *    - users
+ *   requestBody:
+ *    description: The user to connect
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        email:
+ *         type: string
+ *         description: The user's email.
+ *         example: 'john@doe.ch'
+ *        password:
+ *         type: string
+ *         description: The user's password.
+ *         example: password
+ *   required:
+ *    - firstname
+ *    - lastname
+ *    - email
+ *    - password
+ *    - birthdate
+ *    - picture
+ *    - isAdmin
+ *    - localisation
+ *    - currentPath
+ *   responses:
+ *     200:
+ *       description: You're connected
+ *     404:
+ *       description: Login infos might not be correct
+ *     500:
+ *       description: Some error happened
+ */
+
+router.post("/login", (req, res, next) => {
+	User.findOne({ email: req.body.email })
+	.exec()
+	.then((user) => {
+		if(!user) return res.sendStatus(401);
+		if(!req.body.password) return res.sendStatus(401);
+		return bcrypt.compare(req.body.password, user.password).then(valid => {
+			if(!valid) return res.sendStatus(401);
+
+			const payload = {
+				sub: user._id,
+				exp: Math.floor(Date.now() / 1000) +  24 * 3600
+			};
+
+			const secret = process.env.JWT_SECRET || "secret";
+
+			signJwt(payload, secret).then(jwt => {
+				res.send({
+					message: `Bienvenue ${user.firstname} ${user.lastname}`,
+					token: jwt
+				});
+			});
+		});
+	})
 });
 
 /**
@@ -348,31 +413,6 @@ router.post("/", async (req, res, next) => {
  *       description: Some error happened
  */
 
-router.post("/login", (req, res, next) => {
-	User.findOne({ email: req.body.email })
-	.exec()
-	.then((user) => {
-		if(!user) return res.sendStatus(401);
-		if(!req.body.password) return res.sendStatus(401);
-		return bcrypt.compare(req.body.password, user.password).then(valid => {
-			if(!valid) return res.sendStatus(401);
-
-			const payload = {
-				sub: user._id,
-				exp: Math.floor(Date.now() / 1000) +  24 * 3600
-			};
-
-			const secret = process.env.JWT_SECRET || "secret";
-
-			signJwt(payload, secret).then(jwt => {
-				res.send({
-					message: `Bienvenue ${user.firstname} ${user.lastname}`,
-					token: jwt
-				});
-			});
-		});
-	})
-});
 
 router.patch(
 	"/:id",
@@ -426,6 +466,77 @@ router.patch(
 	}
 );
 
+/**
+ * @swagger
+ * /users/{id}/join/{walkId}:
+ *  patch:
+ *   summary: Permits the user to join a walk
+ *   tags: 
+ *    - users
+ *   requestBody:
+ *    description: The user to create
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        firstname:
+ *         type: string
+ *         description: The user's firstname.
+ *         example: John
+ *        lastname:
+ *         type: string
+ *         description: The user's lastname.
+ *         example: Doe
+ *        email:
+ *         type: string
+ *         description: The user's email.
+ *         example: 'john@doe.ch'
+ *        password:
+ *         type: string
+ *         description: The user's password.
+ *         example: password
+ *        birthdate:
+ *         type: string
+ *         format: date
+ *         description: The user's birthdate.
+ *         example: 2019-01-01
+ *        picture:
+ *         type: string
+ *         description: The user's picture.
+ *         example: picture.jpg
+ *        isAdmin:
+ *         type: boolean
+ *         description: The user's admin status.
+ *         example: false
+ *        localisation:
+ *         type: array
+ *         example: [0,0]
+ *        currentPath:
+ *          type: string
+ *          format: ObjectId
+ *          example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *   required:
+ *    - firstname
+ *    - lastname
+ *    - email
+ *    - password
+ *    - birthdate
+ *    - picture
+ *    - isAdmin
+ *    - localisation
+ *    - currentPath
+ *   responses:
+ *     200:
+ *       description: The dog was created
+ *     404:
+ *       description: The dog was not found, this dog's ID might not exist
+ *     500:
+ *       description: Some error happened
+ */
+
+
 router.patch(
 	"/:id/join/:walkId",
 	loadUserFromParamsMiddleware,
@@ -440,6 +551,77 @@ router.patch(
 			.catch(next);
 	}
 );
+
+/**
+ * @swagger
+ * /users/{id}/leave:
+ *  patch:
+ *   summary: Permits the user to leave a walk
+ *   tags: 
+ *    - users
+ *   requestBody:
+ *    description: The user to create
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        firstname:
+ *         type: string
+ *         description: The user's firstname.
+ *         example: John
+ *        lastname:
+ *         type: string
+ *         description: The user's lastname.
+ *         example: Doe
+ *        email:
+ *         type: string
+ *         description: The user's email.
+ *         example: 'john@doe.ch'
+ *        password:
+ *         type: string
+ *         description: The user's password.
+ *         example: password
+ *        birthdate:
+ *         type: string
+ *         format: date
+ *         description: The user's birthdate.
+ *         example: 2019-01-01
+ *        picture:
+ *         type: string
+ *         description: The user's picture.
+ *         example: picture.jpg
+ *        isAdmin:
+ *         type: boolean
+ *         description: The user's admin status.
+ *         example: false
+ *        localisation:
+ *         type: array
+ *         example: [0,0]
+ *        currentPath:
+ *          type: string
+ *          format: ObjectId
+ *          example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *   required:
+ *    - firstname
+ *    - lastname
+ *    - email
+ *    - password
+ *    - birthdate
+ *    - picture
+ *    - isAdmin
+ *    - localisation
+ *    - currentPath
+ *   responses:
+ *     200:
+ *       description: The dog was created
+ *     404:
+ *       description: The dog was not found, this dog's ID might not exist
+ *     500:
+ *       description: Some error happened
+ */
+
 
 router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user.currentPath = null;

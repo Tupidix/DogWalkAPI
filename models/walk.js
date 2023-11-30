@@ -5,7 +5,7 @@ import { validateGeoJsonCoordinates } from "../utils/geo.js";
  * @swagger
  * component:
  *   schemas:
- *   Walk:
+ *   Walks:
  *     type: object
  *     properties:
  *       title:
