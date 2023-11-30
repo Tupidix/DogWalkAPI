@@ -23,8 +23,6 @@ const router = express.Router();
  *   responses:
  *    '200':
  *      description: List of all dogs
- *    '401':
- *      description: You need to be authenticated to do that
  *    '404':
  *      description: No dogs found
  *    '500':
@@ -59,8 +57,6 @@ router.get("/", function (req, res, next) {
  *   responses:
  *    200:
  *     description: The dog's details by id
- *    401:
- *     description: You need to be authenticated to do that
  *    404:
  *     description: The dog was not found, this dogs might not exist
  *    500:
@@ -85,14 +81,11 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  *   summary: 'Create a dog, you need to be authenticated to do that'
  *   tags:
  *    - dogs
- *   parameters:
- *    - in: header
- *      name: Authorization
- *      example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
- *      schema:
- *       type: string
- *       format: jwt
- *      required: true
+ *   description: "The auth token generated from the login route must be copied in the field (with Bearer in front of it like: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')"
+ *   headers:
+ *    Authorization: Bearer my-token
+ *    Accept: application/json
+ *    required: true
  *   requestBody:
  *    description: The dog to create
  *    required: true
@@ -186,8 +179,6 @@ router.post("/", authenticate, (req, res, next) => {
  *    responses:
  *      200:
  *        description: The dog was updated
- *      401:
- *        description: You need to be authenticated to do that
  *      404:
  *        description: The dog was not found, this dog's ID might not exist
  *      500:
@@ -278,8 +269,6 @@ router.patch(
  *    responses:
  *      200:
  *        description: The dog was updated
- *      401:
- *        description: You need to be authenticated to do that
  *      404:
  *        description: The dog was not found, this dog's ID might not exist
  *      500:
@@ -339,10 +328,8 @@ router.put(
  *      description: The dog's ID
  *      required: true
  *   responses:
- *     200:
+ *     204:
  *       description: The dog was deleted
- *     401:
- *       description: You need to be authenticated to do that
  *     404:
  *       description: The dog was not found, this dog's ID might not exist
  *     500:
