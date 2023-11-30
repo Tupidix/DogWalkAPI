@@ -87,7 +87,7 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  *    - dogs
  *   parameters:
  *    - in: header
- *      name: token
+ *      name: Authorization
  *      schema:
  *       type: string
  *       format: jwt
