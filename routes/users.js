@@ -25,10 +25,6 @@ const signJwt = promisify(jwt.sign);
  *   responses:
  *    '200':
  *      description: List of users
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Users'
  *    '404':
  *      description: No users found
  *    '500':
@@ -278,7 +274,7 @@ router.post("/", async (req, res, next) => {
 /**
  * @swagger
  * /users/login:
- *  patch:
+ *  post:
  *   summary: 'Permits the user to connect'
  *   tags: 
  *    - users
@@ -473,50 +469,17 @@ router.patch(
  *   summary: Permits the user to join a walk
  *   tags: 
  *    - users
- *   requestBody:
- *    description: The user to create
- *    required: true
- *    content:
- *     application/json:
- *      schema:
- *       type: object
- *       properties:
- *        firstname:
- *         type: string
- *         description: The user's firstname.
- *         example: John
- *        lastname:
- *         type: string
- *         description: The user's lastname.
- *         example: Doe
- *        email:
- *         type: string
- *         description: The user's email.
- *         example: 'john@doe.ch'
- *        password:
- *         type: string
- *         description: The user's password.
- *         example: password
- *        birthdate:
- *         type: string
- *         format: date
- *         description: The user's birthdate.
- *         example: 2019-01-01
- *        picture:
- *         type: string
- *         description: The user's picture.
- *         example: picture.jpg
- *        isAdmin:
- *         type: boolean
- *         description: The user's admin status.
- *         example: false
- *        localisation:
- *         type: array
- *         example: [0,0]
- *        currentPath:
- *          type: string
- *          format: ObjectId
- *          example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *   parameters:
+ *   - in: path
+ *     name: userId
+ *     type: string
+ *     description: The user's ID
+ *     required: true
+ *   - in: path
+ *     name: walkId
+ *     type: string
+ *     description: The walk's ID
+ *     required: true
  *   required:
  *    - firstname
  *    - lastname
@@ -559,50 +522,12 @@ router.patch(
  *   summary: Permits the user to leave a walk
  *   tags: 
  *    - users
- *   requestBody:
- *    description: The user to create
- *    required: true
- *    content:
- *     application/json:
- *      schema:
- *       type: object
- *       properties:
- *        firstname:
- *         type: string
- *         description: The user's firstname.
- *         example: John
- *        lastname:
- *         type: string
- *         description: The user's lastname.
- *         example: Doe
- *        email:
- *         type: string
- *         description: The user's email.
- *         example: 'john@doe.ch'
- *        password:
- *         type: string
- *         description: The user's password.
- *         example: password
- *        birthdate:
- *         type: string
- *         format: date
- *         description: The user's birthdate.
- *         example: 2019-01-01
- *        picture:
- *         type: string
- *         description: The user's picture.
- *         example: picture.jpg
- *        isAdmin:
- *         type: boolean
- *         description: The user's admin status.
- *         example: false
- *        localisation:
- *         type: array
- *         example: [0,0]
- *        currentPath:
- *          type: string
- *          format: ObjectId
- *          example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *   parameters:
+ *   - in: path
+ *     name: userId
+ *     type: string
+ *     description: The user's ID
+ *     required: true
  *   required:
  *    - firstname
  *    - lastname
@@ -640,6 +565,12 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
  *   summary: 'Update all details from a user'
  *   tags: 
  *    - users
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     description: The user's ID
+ *     required: true
  *   requestBody:
  *    description: The user to create
  *    required: true

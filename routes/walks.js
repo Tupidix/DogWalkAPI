@@ -25,10 +25,6 @@ const router = express.Router();
  *   responses:
  *    '200':
  *      description: List of walks
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Walks'
  *    '404':
  *      description: No users found
  *    '500':
@@ -89,11 +85,39 @@ router.get("/:id", (req, res, next) => {
  *   tags:
  *    - 'walks'
  *   description: Create a walk
+ *   requestBody:
+ *      description: The fields to update
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: Walk 1
+ *              path:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      enum: Point
+ *                    coordinate:
+ *                      type: array
+ *                      items:
+ *                        type: number
+ *                        description: The walk's path.
+ *              creator:
+ *                type: string
+ *                format: ObjectId
+ *                example: 5f9d88a2d0b4d8f8c4b3b3f7
+
  *   responses:
  *    '200':
  *      description: List of walks
- *      content:
- *        application/json:
+ *    '401':
+ *      description: You need to be authenticated to do that
  *    '404':
  *      description: No users found
  *    '500':

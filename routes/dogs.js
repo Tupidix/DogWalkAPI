@@ -22,7 +22,11 @@ const router = express.Router();
  *   description: List all dogs
  *   responses:
  *    '200':
- *      description: List of dogs
+ *      description: List of all dogs
+ *    '404':
+ *      description: No dogs found
+ *    '500':
+ *     description: Some error happened
 */
 
 router.get("/", function (req, res, next) {
@@ -52,9 +56,9 @@ router.get("/", function (req, res, next) {
  *      required: true
  *   responses:
  *    200:
- *     description: The dog description by id
+ *     description: The dog's details by id
  *    404:
- *     description: The dog was not found, this dog's ID might not exist
+ *     description: The dog was not found, this dogs might not exist
  *    500:
  *     description: Some error happened
  */
@@ -74,7 +78,7 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  * @swagger
  * '/dogs':
  *  post:
- *   summary: 'Create a dog'
+ *   summary: 'Create a dog, you need to be authenticated to do that'
  *   tags: 
  *    - dogs
  *   requestBody:
@@ -103,12 +107,10 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  *         type: string
  *         example: picture.jpg
  *   responses:
- *     200:
- *       description: The dog was created
- *     404:
- *       description: The dog was not found, this dog's ID might not exist
- *     500:
- *       description: Some error happened
+ *      200:
+ *        description: The dog was updated
+ *      500:
+ *        description: Some error happened
  */
 
 router.post("/", authenticate, (req, res, next) => {
