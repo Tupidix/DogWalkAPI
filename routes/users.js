@@ -201,7 +201,6 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *          type: string
  *          format: ObjectId
  *          example: 5f9d88a2d0b4d8f8c4b3b3f7
- * 
  *       required:
  *        - firstname
  *        - lastname
@@ -212,7 +211,6 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *        - isAdmin
  *        - localisation
  *        - currentPath
- *
  *       responses:
  *        200:
  *         description: The dog was created
@@ -222,7 +220,6 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *         description: Some error happened
  */
 
-/* POST new user */
 router.post("/", async (req, res, next) => {
 	try {
         // Hachez le mot de passe avant de créer l'utilisateur
