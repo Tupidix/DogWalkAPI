@@ -1,6 +1,45 @@
 import mongoose from "mongoose";
 import { validateGeoJsonCoordinates } from "../utils/geo.js";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *   Walk:
+ *     type: object
+ *     properties:
+ *       title:
+ *         type: string
+ *         description: The walk's title.
+ *       path:
+ *         type: array
+ *         items:
+ *           type: object
+ *           properties:
+ *             type:            
+ *               type: string
+ *               enum: Point
+ *             coordinate:
+ *               type: array
+ *               items:
+ *                 type: number
+ *                 description: The walk's path.
+ *       creator:
+ *         type: array
+ *         items:
+ *           type: string
+ *           format: ObjectId
+ *           description: The walk's creator.
+ *     required:
+ *       - title
+ *       - path
+ *       - creator
+ *     example:
+ *       title: Walk 1
+ *       path: [{"type":"Point","coordinate":[0,0]}]
+ *       creator: 5f9d88a2d0b4d8f8c4b3b3f7
+ */
+
 const Schema = mongoose.Schema;
 
 const walkSchema = new Schema({
