@@ -201,23 +201,23 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *          type: string
  *          format: ObjectId
  *          example: 5f9d88a2d0b4d8f8c4b3b3f7
- *       required:
- *        - firstname
- *        - lastname
- *        - email
- *        - password
- *        - birthdate
- *        - picture
- *        - isAdmin
- *        - localisation
- *        - currentPath
- *       responses:
- *        200:
- *         description: The dog was created
- *        404:
- *         description: The dog was not found, this dog's ID might not exist
- *        500:
- *         description: Some error happened
+ *   required:
+ *    - firstname
+ *    - lastname
+ *    - email
+ *    - password
+ *    - birthdate
+ *    - picture
+ *    - isAdmin
+ *    - localisation
+ *    - currentPath
+ *   responses:
+ *     200:
+ *       description: The dog was created
+ *     404:
+ *       description: The dog was not found, this dog's ID might not exist
+ *     500:
+ *       description: Some error happened
  */
 
 router.post("/", async (req, res, next) => {
