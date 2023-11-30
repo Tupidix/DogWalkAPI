@@ -37,7 +37,7 @@ router.get("/", function (req, res, next) {
 		const { page, pageSize } = utils.getPaginationParameters(req);
 
 		const pipeline = [];
-	//Affiche tous les utilisateurs qui ont au moins un chien avec le nombre de chiens
+	//Affiche tous les utilisateurs avec leur nombre de chiens
 		pipeline.push(
 		{
 			$lookup: {

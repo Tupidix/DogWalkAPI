@@ -44,7 +44,7 @@ router.post("/", (req, res, next) => {
 	newWalk
 		.save()
 		.then((savedWalk) => {
-			broadcastMessage({ message: "Une balade a été créée proche de vous", title: savedWalk.title });
+			broadcastMessage({ message: "Une balade a été créée proche de vous.", title: savedWalk.title });
 			// Send the saved document in the response
 			res.send(savedWalk);
 		})
