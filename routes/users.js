@@ -13,7 +13,7 @@ const router = express.Router();
  * @swagger
  * /users:
  *  get:
- *   summary: List all users that have at least one dog
+ *   summary: List all users
  *   tags:
  *    - 'users'
  *   description: List all users
@@ -29,6 +29,7 @@ const router = express.Router();
 // router.get("/", function (req, res, next) {
 // 	res.send("Got a response from the users route");
 // });
+
 router.get("/", function (req, res, next) {
 	
 	const countQuery = queryUser(req);
@@ -138,6 +139,28 @@ router.get("/admin", function (req, res, next) {
             next(err);
         });
 });
+
+/**
+ * @swagger
+ * /users/{id}:
+ *  get:
+ *   summary: 'List the details of a user'
+ *   tags:
+ *    - 'users'
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     description: The user's ID
+ *     required: true
+ *   responses:
+ *    200:
+ *     description: The user description by id
+ *    404:
+ *     description: The user was not found, this user's ID might not exist
+ *    500:
+ *     description: Some error happened
+ */
 
 router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	User.findById(req.params.id)
