@@ -71,17 +71,40 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
 
 /**
  * @swagger
- * '/dogs/{id}':
+ * '/dogs':
  *  post:
- *   summary: 'Create a dog by ID'
+ *   summary: 'Create a dog'
  *   tags: 
  *    - dogs
- *   parameters:
- *    - in: path
- *      name: id
- *      type: string
- *      description: The dog's ID
- *      required: true
+ *   requestBody:
+ *    description: The dog to create
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       type: object
+ *       properties:
+ *        name:
+ *         type: string
+ *         example: Rex
+ *        birthdate:
+ *         type: string
+ *         format: date
+ *         example: 2019-01-01
+ *        breed:
+ *         type: string
+ *         example: Labrador
+ *        master:
+ *         type: string
+ *         format: ObjectId
+ *         example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *        dislike:
+ *         type: string
+ *         format: ObjectId
+ *         example: 5f9d88a2d0b4d8f8c4b3b3d7
+ *        picture:
+ *         type: string
+ *         example: picture.jpg
  *   responses:
  *     200:
  *       description: The dog was created
