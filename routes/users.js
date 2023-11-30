@@ -282,7 +282,7 @@ router.post("/", async (req, res, next) => {
  * /users/login:
  *  post:
  *   summary: 'Permits the user to connect'
- *   tags: 
+ *   tags:
  *    - users
  *   requestBody:
  *    description: The user to connect
@@ -321,28 +321,28 @@ router.post("/", async (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
 	User.findOne({ email: req.body.email })
-	.exec()
-	.then((user) => {
-		if(!user) return res.sendStatus(401);
-		if(!req.body.password) return res.sendStatus(401);
-		return bcrypt.compare(req.body.password, user.password).then(valid => {
-			if(!valid) return res.sendStatus(401);
+		.exec()
+		.then((user) => {
+			if (!user) return res.sendStatus(401);
+			if (!req.body.password) return res.sendStatus(401);
+			return bcrypt.compare(req.body.password, user.password).then((valid) => {
+				if (!valid) return res.sendStatus(401);
 
-			const payload = {
-				sub: user._id,
-				exp: Math.floor(Date.now() / 1000) +  24 * 3600
-			};
+				const payload = {
+					sub: user._id,
+					exp: Math.floor(Date.now() / 1000) + 24 * 3600,
+				};
 
-			const secret = process.env.JWT_SECRET || "secret";
+				const secret = process.env.JWT_SECRET || "secret";
 
-			signJwt(payload, secret).then(jwt => {
-				res.send({
-					message: `Bienvenue ${user.firstname} ${user.lastname}`,
-					token: jwt
+				signJwt(payload, secret).then((jwt) => {
+					res.send({
+						message: `Bienvenue ${user.firstname} ${user.lastname}`,
+						token: jwt,
+					});
 				});
 			});
 		});
-	})
 });
 
 /**
@@ -350,7 +350,7 @@ router.post("/login", (req, res, next) => {
  * /users:
  *  patch:
  *   summary: 'Update some details from a user'
- *   tags: 
+ *   tags:
  *    - users
  *   requestBody:
  *    description: The user to create
@@ -417,7 +417,6 @@ router.post("/login", (req, res, next) => {
  *       description: Some error happened
  */
 
-
 router.patch(
 	"/:id",
 	requireJson,
@@ -475,7 +474,7 @@ router.patch(
  * /users/{id}/join/{walkId}:
  *  patch:
  *   summary: Permits the user to join a walk
- *   tags: 
+ *   tags:
  *    - users
  *   parameters:
  *   - in: path
@@ -509,7 +508,6 @@ router.patch(
  *       description: Some error happened
  */
 
-
 router.patch(
 	"/:id/join/:walkId",
 	loadUserFromParamsMiddleware,
@@ -518,7 +516,9 @@ router.patch(
 		req.user
 			.save()
 			.then((savedUser) => {
-			broadcastMessage({ message: "Quelqu'un a rejoins une balade, rejoins le !"});
+				broadcastMessage({
+					message: "Quelqu'un a rejoins une balade, rejoins le !",
+				});
 				res.send(savedUser);
 			})
 			.catch(next);
@@ -530,7 +530,7 @@ router.patch(
  * /users/{id}/leave:
  *  patch:
  *   summary: Permits the user to leave a walk
- *   tags: 
+ *   tags:
  *    - users
  *   parameters:
  *   - in: path
@@ -559,7 +559,6 @@ router.patch(
  *       description: Some error happened
  */
 
-
 router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user.currentPath = null;
 	req.user
@@ -575,7 +574,7 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
  * /users/{id}:
  *  put:
  *   summary: 'Update all details from a user'
- *   tags: 
+ *   tags:
  *    - users
  *   parameters:
  *   - in: path
@@ -653,7 +652,7 @@ router.put(
 	requireJson,
 	loadUserFromParamsMiddleware,
 	(req, res, next) => {
-		// Update all properties (regardless of whether the are present in the request body or not)
+		// Update all properties
 
 		req.user.firstname = req.body.firstname;
 		req.user.lastname = req.body.lastname;
@@ -664,6 +663,22 @@ router.put(
 		req.user.isAdmin = req.body.isAdmin;
 		req.user.localisation = req.body.localisation;
 		req.user.currentPath = req.body.currentPath;
+
+		// if it miss a required property, abort and send a 501 error
+		if (
+			!req.user.firstname ||
+			!req.user.lastname ||
+			!req.user.email ||
+			!req.user.password ||
+			!req.user.birthdate ||
+			!req.user.picture
+		) {
+			return res
+				.status(501)
+				.send(
+					"Missing required fields (firstname, lastname, email, password, birthdate or picture)"
+				);
+		}
 
 		req.user
 			.save()
@@ -697,7 +712,7 @@ router.put(
  *    '404':
  *     description: The user was not found, this user's ID might not exist
  *    '500':
- *     description: Some error happened 
+ *     description: Some error happened
  */
 
 router.delete("/:id", loadUserFromParamsMiddleware, (req, res, next) => {

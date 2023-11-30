@@ -17,7 +17,7 @@ const router = express.Router();
  * /dogs:
  *  get:
  *   summary: List all dogs
- *   tags: 
+ *   tags:
  *    - dogs
  *   description: List all dogs
  *   responses:
@@ -29,18 +29,18 @@ const router = express.Router();
  *      description: No dogs found
  *    '500':
  *     description: Some error happened
-*/
+ */
 
 router.get("/", function (req, res, next) {
-    Dog.find()
-        .sort("name")
-        .exec()
-        .then((dogs) => {
-            res.send(dogs);
-        })
-        .catch((err) => {
-            next(err);
-        });
+	Dog.find()
+		.sort("name")
+		.exec()
+		.then((dogs) => {
+			res.send(dogs);
+		})
+		.catch((err) => {
+			next(err);
+		});
 });
 
 /**
@@ -48,7 +48,7 @@ router.get("/", function (req, res, next) {
  * '/dogs/{id}':
  *  get:
  *   summary: 'List the details of a dog'
- *   tags: 
+ *   tags:
  *    - dogs
  *   parameters:
  *    - in: path
@@ -68,14 +68,14 @@ router.get("/", function (req, res, next) {
  */
 
 router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
-    Dog.findById(req.params.id)
-        .exec()
-        .then((dogs) => {
-            res.send(dogs);
-        })
-        .catch((err) => {
-            next(err);
-        });
+	Dog.findById(req.params.id)
+		.exec()
+		.then((dogs) => {
+			res.send(dogs);
+		})
+		.catch((err) => {
+			next(err);
+		});
 });
 
 /**
@@ -83,7 +83,7 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  * '/dogs':
  *  post:
  *   summary: 'Create a dog, you need to be authenticated to do that'
- *   tags: 
+ *   tags:
  *    - dogs
  *   parameters:
  *    - in: header
@@ -128,18 +128,18 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  */
 
 router.post("/", authenticate, (req, res, next) => {
-    // Create a new document from the JSON in the request body
-    const newDog = new Dog(req.body);
-    // Save that document
-    newDog
-        .save()
-        .then((savedDog) => {
-            // Send the saved document in the response
-            res.send(savedDog);
-        })
-        .catch((err) => {
-            next(err);
-        });
+	// Create a new document from the JSON in the request body
+	const newDog = new Dog(req.body);
+	// Save that document
+	newDog
+		.save()
+		.then((savedDog) => {
+			// Send the saved document in the response
+			res.send(savedDog);
+		})
+		.catch((err) => {
+			next(err);
+		});
 });
 
 /**
@@ -162,7 +162,7 @@ router.post("/", authenticate, (req, res, next) => {
  *          schema:
  *            type: object
  *            properties:
- *              name: 
+ *              name:
  *                type: string
  *                example: Rex
  *              birthdate:
@@ -195,43 +195,43 @@ router.post("/", authenticate, (req, res, next) => {
  */
 
 router.patch(
-    "/:id",
-    requireJson,
-    loadDogFromParamsMiddleware,
-    (req, res, next) => {
-        // Update only properties present in the request body
-        if (req.body.name !== undefined) {
-            req.dog.name = req.body.name;
-        }
+	"/:id",
+	requireJson,
+	loadDogFromParamsMiddleware,
+	(req, res, next) => {
+		// Update only properties present in the request body
+		if (req.body.name !== undefined) {
+			req.dog.name = req.body.name;
+		}
 
-        if (req.body.birthdate !== undefined) {
-            req.dog.birthdate = req.body.birthdate;
-        }
+		if (req.body.birthdate !== undefined) {
+			req.dog.birthdate = req.body.birthdate;
+		}
 
-        if (req.body.breed !== undefined) {
-            req.dog.breed = req.body.breed;
-        }
+		if (req.body.breed !== undefined) {
+			req.dog.breed = req.body.breed;
+		}
 
-        if (req.body.master !== undefined) {
-            req.dog.master = req.body.master;
-        }
+		if (req.body.master !== undefined) {
+			req.dog.master = req.body.master;
+		}
 
-        if (req.body.dislike !== undefined) {
-            req.dog.dislike = req.body.dislike;
-        }
+		if (req.body.dislike !== undefined) {
+			req.dog.dislike = req.body.dislike;
+		}
 
-        if (req.body.picture !== undefined) {
-            req.dog.picture = req.body.picture;
-        }
+		if (req.body.picture !== undefined) {
+			req.dog.picture = req.body.picture;
+		}
 
-        req.dog
-            .save()
-            .then((savedDog) => {
-                // debug(`Updated dog "${savedDog.name}"`);
-                res.send(savedDog);
-            })
-            .catch(next);
-    }
+		req.dog
+			.save()
+			.then((savedDog) => {
+				// debug(`Updated dog "${savedDog.name}"`);
+				res.send(savedDog);
+			})
+			.catch(next);
+	}
 );
 
 /**
@@ -254,7 +254,7 @@ router.patch(
  *          schema:
  *            type: object
  *            properties:
- *              name: 
+ *              name:
  *                type: string
  *                example: Rex
  *              birthdate:
@@ -287,27 +287,42 @@ router.patch(
  */
 
 router.put(
-    "/:id",
-    requireJson,
-    loadDogFromParamsMiddleware,
-    (req, res, next) => {
-        // Update all properties (regardless of whether the are present in the request body or not)
+	"/:id",
+	requireJson,
+	loadDogFromParamsMiddleware,
+	(req, res, next) => {
+		// Update all properties
 
-        req.dog.name = req.body.name;
-        req.dog.birthdate = req.body.birthdate;
-        req.dog.breed = req.body.breed;
-        req.dog.master = req.body.master;
-        req.dog.dislike = req.body.dislike;
-        req.dog.picture = req.body.picture;
+		req.dog.name = req.body.name;
+		req.dog.birthdate = req.body.birthdate;
+		req.dog.breed = req.body.breed;
+		req.dog.master = req.body.master;
+		req.dog.dislike = req.body.dislike;
+		req.dog.picture = req.body.picture;
 
-        req.dog
-            .save()
-            .then((savedDog) => {
-                //debug(`Updated dog "${savedDog.name}"`);
-                res.send(savedDog);
-            })
-            .catch(next);
-    }
+		// if it miss a required property, abort and send a 501 error
+		if (
+			!req.dog.name ||
+			!req.dog.birthdate ||
+			!req.dog.breed ||
+			!req.dog.master ||
+			!req.dog.picture
+		) {
+			return res
+				.status(501)
+				.send(
+					"Missing required fields (name, birthdate, breed, master, dislike or picture)"
+				);
+		}
+
+		req.dog
+			.save()
+			.then((savedDog) => {
+				//debug(`Updated dog "${savedDog.name}"`);
+				res.send(savedDog);
+			})
+			.catch(next);
+	}
 );
 
 /**
@@ -315,7 +330,7 @@ router.put(
  * '/dogs/{id}':
  *  delete:
  *   summary: 'Delete a dog'
- *   tags: 
+ *   tags:
  *    - dogs
  *   parameters:
  *    - in: path
@@ -335,37 +350,37 @@ router.put(
  */
 
 router.delete("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
-    req.dog
-        .deleteOne()
-        .then(() => {
-            res.sendStatus(204);
-        })
-        .catch(next);
+	req.dog
+		.deleteOne()
+		.then(() => {
+			res.sendStatus(204);
+		})
+		.catch(next);
 });
 
 function loadDogFromParamsMiddleware(req, res, next) {
-    const dogId = req.params.id;
-    if (!ObjectId.isValid(dogId)) {
-        return dogNotFound(res, dogId);
-    }
+	const dogId = req.params.id;
+	if (!ObjectId.isValid(dogId)) {
+		return dogNotFound(res, dogId);
+	}
 
-    let query = Dog.findById(dogId);
+	let query = Dog.findById(dogId);
 
-    query
-        .exec()
-        .then((dog) => {
-            if (!dog) {
-                return dogNotFound(res, dogId);
-            }
+	query
+		.exec()
+		.then((dog) => {
+			if (!dog) {
+				return dogNotFound(res, dogId);
+			}
 
-            req.dog = dog;
-            next();
-        })
-        .catch(next);
+			req.dog = dog;
+			next();
+		})
+		.catch(next);
 }
 
 function dogNotFound(res, dogId) {
-    return res.status(404).type("text").send(`No dog found with ID ${dogId}`);
+	return res.status(404).type("text").send(`No dog found with ID ${dogId}`);
 }
 
 export default router;

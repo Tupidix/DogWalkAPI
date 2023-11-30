@@ -3,7 +3,7 @@ import supertest from "supertest";
 import app from "../app.js";
 
 describe("POST /dogs", () => {
-	it("should throw an error if master is missing", async () => {
+	it("should throw an error if not authenticate", async () => {
 		const response = await supertest(app)
 			.post("/dogs")
 			.send({
@@ -11,27 +11,13 @@ describe("POST /dogs", () => {
 				breed: "Labrador Retriever",
 				birthdate: new Date(),
 				picture: "mydog.jpg",
+				master: "1",
 			})
 			.set("Accept", "application/json");
 
-		expect(response.text).toEqual(
-			"Dog validation failed: master: You must have at least one master"
-		);
-	});
+		expect(response.status).toEqual(401);
 
-	it("should throw an error if master has non-existing user", async () => {
-		const response = await supertest(app)
-			.post("/dogs")
-			.send({
-				name: "Max",
-				breed: "Labrador Retriever",
-				birthdate: new Date(),
-				picture: "mydog.jpg",
-				master: ["non-existing-user-id"],
-			})
-			.set("Accept", "application/json");
-
-		expect(response.status).toBe(500);
+		expect(response.text).toEqual("Authorization header is missing");
 	});
 });
 

@@ -23,7 +23,7 @@ Sur l'écran principal, nous aurons une map avec des pins sur la carte où l'on 
 
 Au dessous, nous avons une liste avec ces même promeneurs qui sont triés par ordre de proximité de l'utilisateur.
 
-Chaque utilisateur aura possibilité d'indiquer une tension entre son chien et un autre, cette fonctionnalité ne pourra être utilisée que par la personne susmentionnée et non pas par des utilisateurs tiers.
+Chaque utilisateur aura possibilité d'indiquer une tension entre son chien et un autre, cette fonctionnalité ne pourra (idéalement) être utilisée que par la personne susmentionnée et non pas par des utilisateurs tiers.
 
 Dès qu'un conflit est enregistré, les promeneurs en questions apparaitrons toujours sur la carte ou dans la liste (afin de savoir où il ne faut pas y aller) mais de manière grisée. De plus, si un utilisateur en promenade est à une distance de 500m d'un "ennemi", une notification apparaîtra pour le lui dire.
 

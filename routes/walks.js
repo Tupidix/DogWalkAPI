@@ -135,7 +135,10 @@ router.post("/", authenticate, (req, res, next) => {
 	newWalk
 		.save()
 		.then((savedWalk) => {
-			broadcastMessage({ message: "Une balade a été créée proche de vous.", title: savedWalk.title });
+			broadcastMessage({
+				message: "Une balade a été créée proche de vous.",
+				title: savedWalk.title,
+			});
 			// Send the saved document in the response
 			res.send(savedWalk);
 		})
@@ -184,7 +187,7 @@ router.post("/", authenticate, (req, res, next) => {
  *                type: string
  *                format: ObjectId
  *                example: 5f9d88a2d0b4d8f8c4b3b3f7
- *        
+ *
  *    responses:
  *      200:
  *        description: The walk was updated
@@ -195,7 +198,6 @@ router.post("/", authenticate, (req, res, next) => {
  *      500:
  *        description: Some error happened
  */
-
 
 router.patch(
 	"/:id",
@@ -265,7 +267,7 @@ router.patch(
  *                type: string
  *                format: ObjectId
  *                example: 5f9d88a2d0b4d8f8c4b3b3f7
- *        
+ *
  *    responses:
  *      200:
  *        description: The walk was updated
@@ -277,17 +279,22 @@ router.patch(
  *        description: Some error happened
  */
 
-
 router.put(
 	"/:id",
 	requireJson,
 	loadWalkFromParamsMiddleware,
 	(req, res, next) => {
-		// Update all properties (regardless of whether the are present in the request body or not)
-
+		// Update all properties
 		req.walk.title = req.body.title;
 		req.walk.path = req.body.path;
 		req.walk.creator = req.body.creator;
+
+		// if it miss a property, abort and send a 500 error
+		if (!req.walk.title || !req.walk.path || !req.walk.creator) {
+			return res
+				.status(501)
+				.send("Missing required fields (title, path or creator)");
+		}
 
 		req.walk
 			.save()
@@ -321,7 +328,7 @@ router.put(
  *    '404':
  *     description: The walk was not found, this walk's ID might not exist
  *    '500':
- *     description: Some error happened 
+ *     description: Some error happened
  */
 
 router.delete("/:id", loadWalkFromParamsMiddleware, (req, res, next) => {
