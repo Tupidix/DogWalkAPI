@@ -3,7 +3,6 @@ import User from "../models/user.js";
 import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
 import bcrypt from "bcrypt";
-import * as utils from '../utils/pagination.js';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -14,13 +13,8 @@ const router = express.Router();
 // });
 router.get("/", function (req, res, next) {
 	
-	const countQuery = queryUser(req);
-	countQuery.countDocuments().then(total => {
-		const { page, pageSize } = utils.getPaginationParameters(req);
-
-		const pipeline = [];
 	//Affiche tous les utilisateurs qui ont au moins un chien avec le nombre de chiens
-		pipeline.push(
+	User.aggregate([
 		{
 			$lookup: {
 				from: "dogs",
@@ -56,40 +50,16 @@ router.get("/", function (req, res, next) {
 				isAdmin: { $first: "$isAdmin" },
 				nombreChiens: { $sum: { $cond: [{ $ifNull: ["$nombreChiens", false] }, 1, 0] } }
 			}
-		},
-		{
-			$sort: {
-			  firstname: 1
-			}
-		},
-		{
-			$skip: (page - 1) * pageSize
-		},
-		{
-			$limit: pageSize
 		}
-	);
-	User.aggregate(pipeline)
+	])
 	.exec()
 	.then((users) => {
-		utils.addLinkHeader('/users', page, pageSize, total, res);
-		res.send(
-			users.map(user => {
-				const serialized = new User(user).toJSON();
-
-				serialized.nombreChiens = user.nombreChiens;
-				return serialized;
-			})
-		);
+		res.send(users);
 	})
-	.catch(next);
+	.catch((err) => {
+		next(err);
 	});
 });
-
-function queryUser(req) {
-	let query = User.find();
-	return query;
-  }
 
 /* GET users listing. */
 router.get("/admin", function (req, res, next) {
@@ -197,26 +167,6 @@ router.patch(
 			.catch(next);
 	}
 );
-
-router.patch("/:id/join/:walkId", loadUserFromParamsMiddleware, (req, res, next) => {
-	req.user.currentPath = req.params.walkId;
-	req.user
-		.save()
-		.then((savedUser) => {
-			res.send(savedUser);
-		})
-		.catch(next);
-});
-
-router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
-	req.user.currentPath = null;
-	req.user
-		.save()
-		.then((savedUser) => {
-			res.send(savedUser);
-		})
-		.catch(next);
-});
 
 router.put(
 	"/:id",

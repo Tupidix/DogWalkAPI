@@ -67,10 +67,17 @@ const walkSchema = new Schema({
 		},
 	],
 	creator: {
-		type: Schema.Types.ObjectId,
-		ref: "User",
+		type: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
 		validate: {
 			validator: async function (value) {
+				if (!Array.isArray(value) || value.length === 0 || value.length > 1) {
+					throw new Error("You must have one creator");
+				}
 
 				const user = await mongoose.model("User").findOne({ _id: value }).exec();
 				if (!user) {
