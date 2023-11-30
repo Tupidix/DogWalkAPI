@@ -635,6 +635,8 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
  *       description: The user was not found, this user's ID might not exist
  *     500:
  *       description: Some error happened
+ *     501:
+ *       description: Missing required field(s)
  */
 
 router.put(

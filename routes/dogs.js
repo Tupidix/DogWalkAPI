@@ -273,6 +273,8 @@ router.patch(
  *        description: The dog was not found, this dog's ID might not exist
  *      500:
  *        description: Some error happened
+ *      501:
+ *        description: Missing required field(s)
  */
 
 router.put(

@@ -84,10 +84,10 @@ router.get("/:id", (req, res, next) => {
  *   tags:
  *    - 'walks'
  *   description: Create a walk
- *   headers:
- *    Authorization: Bearer my-token
- *    Accept: application/json
- *    required: true
+ *   parameters:
+ *     - in: header
+ *      name: Authorization
+ *      type: string
  *   requestBody:
  *      description: The fields to update
  *      content:
@@ -273,6 +273,8 @@ router.patch(
  *        description: The walk was not found, this walk's ID might not exist
  *      500:
  *        description: Some error happened
+ *      501:
+ *        description: Missing required field(s)
  */
 
 router.put(
