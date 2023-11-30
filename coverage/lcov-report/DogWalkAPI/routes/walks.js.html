@@ -425,13 +425,7 @@
 <a name='L360'></a><a href='#L360'>360</a>
 <a name='L361'></a><a href='#L361'>361</a>
 <a name='L362'></a><a href='#L362'>362</a>
-<a name='L363'></a><a href='#L363'>363</a>
-<a name='L364'></a><a href='#L364'>364</a>
-<a name='L365'></a><a href='#L365'>365</a>
-<a name='L366'></a><a href='#L366'>366</a>
-<a name='L367'></a><a href='#L367'>367</a>
-<a name='L368'></a><a href='#L368'>368</a>
-<a name='L369'></a><a href='#L369'>369</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L363'></a><a href='#L363'>363</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -441,8 +435,6 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -500,8 +492,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -510,6 +500,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -630,8 +624,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -655,8 +647,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -734,8 +724,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -825,8 +813,6 @@ const router = express.Router();
  *   responses:
  *    '200':
  *      description: List of walks
- *    '401':
- *      description: You need to be authenticated to do that
  *    '404':
  *      description: No walk found
  *    '500':
@@ -862,8 +848,6 @@ router.get("/", <span class="fstat-no" title="function not covered" >fu</span>nc
  *   responses:
  *    200:
  *     description: The walk description by id
- *    '401':
- *      description: You need to be authenticated to do that
  *    404:
  *     description: The walk was not found, this walk's ID might not exist
  *    500:
@@ -889,6 +873,10 @@ router.get("/:id", <span class="fstat-no" title="function not covered" >(r</span
  *   tags:
  *    - 'walks'
  *   description: Create a walk
+ *   headers:
+ *    Authorization: Bearer my-token
+ *    Accept: application/json
+ *    required: true
  *   requestBody:
  *      description: The fields to update
  *      content:
@@ -992,8 +980,6 @@ router.post("/", authenticate, <span class="fstat-no" title="function not covere
  *    responses:
  *      200:
  *        description: The walk was updated
- *      401:
- *        description: You need to be authenticated to do that
  *      404:
  *        description: The walk was not found, this walk's ID might not exist
  *      500:
@@ -1072,8 +1058,6 @@ router.patch(
  *    responses:
  *      200:
  *        description: The walk was updated
- *      401:
- *        description: You need to be authenticated to do that
  *      404:
  *        description: The walk was not found, this walk's ID might not exist
  *      500:
@@ -1124,8 +1108,6 @@ router.put(
  *   responses:
  *    '204':
  *     description: The walk was deleted
- *    '401':
- *     description: You need to be authenticated to do that
  *    '404':
  *     description: The walk was not found, this walk's ID might not exist
  *    '500':
@@ -1174,7 +1156,7 @@ export default router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-30T23:01:37.861Z
+                at 2023-11-30T23:03:02.435Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

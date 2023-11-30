@@ -17,3 +17,6 @@ package-lock.json
 # Fichiers de logs
 logs/
 *.log
+
+# Fichiers de test
+coverage/
