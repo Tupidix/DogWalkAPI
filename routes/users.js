@@ -3,12 +3,16 @@ import User from "../models/user.js";
 import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { promisify } from "util";
 import * as utils from "../utils/pagination.js";
 import { broadcastMessage } from "../messaging.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
 const router = express.Router();
+
+const signJwt = promisify(jwt.sign);
 
 /**
  * @swagger
@@ -282,8 +286,21 @@ router.post("/login", (req, res, next) => {
 		if(!req.body.password) return res.sendStatus(401);
 		return bcrypt.compare(req.body.password, user.password).then(valid => {
 			if(!valid) return res.sendStatus(401);
-			res.send(`Bienvenue ${user.firstname} ${user.lastname}`);
-		})
+
+			const payload = {
+				sub: user._id,
+				exp: Math.floor(Date.now() / 1000) +  24 * 3600
+			};
+
+			const secret = process.env.JWT_SECRET || "secret";
+
+			signJwt(payload, secret).then(jwt => {
+				res.send({
+					message: `Bienvenue ${user.firstname} ${user.lastname}`,
+					token: jwt
+				});
+			});
+		});
 	})
 });
 

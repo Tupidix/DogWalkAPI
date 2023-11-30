@@ -2,6 +2,7 @@ import express from "express";
 import Dog from "../models/dog.js";
 import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
+import { authenticate } from "../utils/authenticate.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -110,7 +111,7 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  *       description: Some error happened
  */
 
-router.post("/", (req, res, next) => {
+router.post("/", authenticate, (req, res, next) => {
     // Create a new document from the JSON in the request body
     const newDog = new Dog(req.body);
     // Save that document
