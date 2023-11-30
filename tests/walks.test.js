@@ -5,66 +5,60 @@ import { cleanUpDatabase } from "../utils/databaseoperations.js";
 import User from "../models/user.js";
 import Walk from "../models/walk.js";
 
-const idUser = "655ca571cfeec8f6d96ac634";
-const idWalk = "655cc35a0beff0bfa6866985";
-
 // VIDER LA DB AVANT DE COMMENCER LES TESTS
 
 beforeEach(async () => {
 	await cleanUpDatabase();
-
-	// Créer un utilisateur
-	const user = new User({
-		_id: idUser,
-		firstname: "Patrick",
-		lastname: "Marques",
-		email: "pat@pat.ch",
-		password: "12345678",
-		birthdate: new Date("1997-10-24"),
-		picture: "john-doe.jpg",
-		localisation: {
-			type: "Point",
-			coordinate: [46.519653, 6.632273],
-		},
-	});
-
-	// Enregistrez l'utilisateur dans la base de données
-	await user.save();
-
-	// Créer une walk selon le modèle
-	const walk = new Walk({
-		_id: idWalk,
-		title: "Ma belle promenade",
-		path: [
-			{
-				_id: "655cc35a0beff0bfa6866986",
-				type: "Point",
-				coordinate: [0, 0], // Exemple de coordonnées (latitude, longitude)
-			},
-			// Ajoutez d'autres points au besoin
-		],
-		creator: [idUser], // ID de l'utilisateur créateur
-	});
-
-	// Enregistrez la walk dans la base de données
-	await walk.save();
 });
 
 describe("PUT and DELETE /walks/:id", () => {
 	it("should change the walk", async () => {
+		// Créer un utilisateur
+		const user = new User({
+			firstname: "Patrick",
+			lastname: "Marques",
+			email: "pat@pat.ch",
+			password: "12345678",
+			birthdate: new Date("1997-10-24"),
+			picture: "john-doe.jpg",
+			localisation: {
+				type: "Point",
+				coordinate: [46.519653, 6.632273],
+			},
+		});
+
+		// Enregistrez l'utilisateur dans la base de données
+		await user.save();
+
+		// Créer une walk selon le modèle
+		const walk = new Walk({
+			title: "Ma belle promenade",
+			path: [
+				{
+					type: "Point",
+					coordinate: [0, 0], // Exemple de coordonnées (latitude, longitude)
+				},
+				// Ajoutez d'autres points au besoin
+			],
+			// récupération de l'id de l'utilisateur créateur
+			creator: [user.id],
+		});
+
+		// Enregistrez la walk dans la base de données
+		await walk.save();
+
 		const updateData = {
 			title: "Ma belle promenade",
 			path: [
 				{
-					_id: "655cc35a0beff0bfa6866986",
 					type: "Point",
 					coordinate: [12.9714, 77.5946],
 				},
 			],
-			creator: [idUser],
+			creator: [user.id],
 		};
 		const response = await supertest(app)
-			.put(`/walks/${idWalk}`)
+			.put(`/walks/${walk.id}`)
 			.send(updateData);
 
 		// Vérification de la réponse de suppression
@@ -77,17 +71,15 @@ describe("PUT and DELETE /walks/:id", () => {
 			title: "Ma belle promenade",
 			path: [
 				{
-					_id: "655cc35a0beff0bfa6866986",
+					_id: expect.any(String),
 					type: "Point",
 					coordinate: [12.9714, 77.5946],
 				},
 			],
-			creator: idUser,
+			creator: user.id,
 		});
-	});
 
-	it("should delete the walk", async () => {
-		const walkIdToDelete = idWalk;
+		const walkIdToDelete = walk.id;
 
 		// Suppression de la promenade
 		const deleteResponse = await supertest(app).delete(
