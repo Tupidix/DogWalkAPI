@@ -9,7 +9,7 @@ import createDebugger from "debug";
 import http from "http";
 import {createWebSocketServer} from "../messaging.js";
 
-const debug = createDebugger('express-api:server')
+const debug = createDebugger('projet-dogwalk:server')
 /**
  * Get port from environment and store in Express.
  */
