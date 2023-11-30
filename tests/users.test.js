@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import supertest from "supertest";
 import app from "../app.js";
-import { cleanUpDatabase } from "./utils.js";
+import { cleanUpDatabase } from "../utils/databaseoperations.js";
 import User from "../models/user.js";
 
 // VIDER LA DB AVANT DE COMMENCER LES TESTS
@@ -46,7 +46,7 @@ beforeEach(async () => {
 // Assurez-vous que la réponse contient les utilisateurs créés
 // Assurez-vous que la réponse contient les utilisateurs créés
 describe("GET /users", () => {
-	it.only("should retrieve the list of users", async () => {
+	it("should retrieve the list of users", async () => {
 		const response = await supertest(app).get("/users");
 
 		// Assurez-vous que la réponse a le code 200 (OK)
