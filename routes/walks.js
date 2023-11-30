@@ -26,7 +26,7 @@ const router = express.Router();
  *    '200':
  *      description: List of walks
  *    '404':
- *      description: No users found
+ *      description: No walk found
  *    '500':
  *      description: Some error happened
  */
@@ -55,7 +55,7 @@ router.get("/", function (req, res, next) {
  *   - in: path
  *     name: id
  *     type: string
- *     description: The user's ID
+ *     description: The walk's ID
  *     required: true
  *   responses:
  *    200:
@@ -119,7 +119,7 @@ router.get("/:id", (req, res, next) => {
  *    '401':
  *      description: You need to be authenticated to do that
  *    '404':
- *      description: No users found
+ *      description: No walk found
  *    '500':
  *      description: Some error happened
  */

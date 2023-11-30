@@ -236,9 +236,9 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  *    - currentPath
  *   responses:
  *     200:
- *       description: The dog was created
+ *       description: The user was created
  *     404:
- *       description: The dog was not found, this dog's ID might not exist
+ *       description: The user was not found, this user's ID might not exist
  *     500:
  *       description: Some error happened
  */
@@ -402,9 +402,9 @@ router.post("/login", (req, res, next) => {
  *    - currentPath
  *   responses:
  *     200:
- *       description: The dog was created
+ *       description: The user was created
  *     404:
- *       description: The dog was not found, this dog's ID might not exist
+ *       description: The user was not found, this user's ID might not exist
  *     500:
  *       description: Some error happened
  */
@@ -492,9 +492,9 @@ router.patch(
  *    - currentPath
  *   responses:
  *     200:
- *       description: The dog was created
+ *       description: The user was created
  *     404:
- *       description: The dog was not found, this dog's ID might not exist
+ *       description: The user was not found, this user's ID might not exist
  *     500:
  *       description: Some error happened
  */
@@ -540,9 +540,9 @@ router.patch(
  *    - currentPath
  *   responses:
  *     200:
- *       description: The dog was created
+ *       description: The user was created
  *     404:
- *       description: The dog was not found, this dog's ID might not exist
+ *       description: The user was not found, this user's ID might not exist
  *     500:
  *       description: Some error happened
  */
@@ -627,9 +627,9 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
  *    - currentPath
  *   responses:
  *     200:
- *       description: The dog was created
+ *       description: The user was created
  *     404:
- *       description: The dog was not found, this dog's ID might not exist
+ *       description: The user was not found, this user's ID might not exist
  *     500:
  *       description: Some error happened
  */
