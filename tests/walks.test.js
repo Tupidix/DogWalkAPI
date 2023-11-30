@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import supertest from "supertest";
 import app from "../app.js";
-import { cleanUpDatabase } from "./utils.js";
+import { cleanUpDatabase } from "../utils/databaseoperations.js";
 import User from "../models/user.js";
 import Walk from "../models/walk.js";
 

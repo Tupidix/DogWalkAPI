@@ -3,7 +3,7 @@ import User from "../models/user.js";
 import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
 import bcrypt from "bcrypt";
-import * as utils from '../utils/pagination.js';
+import * as utils from "../utils/pagination.js";
 import { broadcastMessage } from "../messaging.js";
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -14,7 +14,7 @@ const router = express.Router();
  * @swagger
  * /users:
  *  get:
- *   summary: List all users that have at least one dog
+ *   summary: List all users
  *   tags:
  *    - 'users'
  *   description: List all users
@@ -30,84 +30,87 @@ const router = express.Router();
 // router.get("/", function (req, res, next) {
 // 	res.send("Got a response from the users route");
 // });
+
 router.get("/", function (req, res, next) {
-	
 	const countQuery = queryUser(req);
-	countQuery.countDocuments().then(total => {
+	countQuery.countDocuments().then((total) => {
 		const { page, pageSize } = utils.getPaginationParameters(req);
 
 		const pipeline = [];
-	//Affiche tous les utilisateurs avec leur nombre de chiens
+		//Affiche tous les utilisateurs avec leur nombre de chiens
 		pipeline.push(
-		{
-			$lookup: {
-				from: "dogs",
-				localField: "_id",
-				foreignField: "master",
-				as: "nombreChiens",
+			{
+				$lookup: {
+					from: "dogs",
+					localField: "_id",
+					foreignField: "master",
+					as: "nombreChiens",
+				},
+			},
+			{
+				$unwind: {
+					path: "$nombreChiens",
+					preserveNullAndEmptyArrays: true,
+				},
+			},
+			{
+				$addFields: {
+					nombreChiens: {
+						$cond: {
+							if: "$nombreChiens",
+							then: 1,
+							else: 0,
+						},
+					},
+				},
+			},
+			{
+				$group: {
+					_id: "$_id",
+					firstname: { $first: "$firstname" },
+					lastname: { $first: "$lastname" },
+					birthdate: { $first: "$birthdate" },
+					picture: { $first: "$picture" },
+					localisation: { $first: "$localisation" },
+					isAdmin: { $first: "$isAdmin" },
+					nombreChiens: {
+						$sum: { $cond: [{ $ifNull: ["$nombreChiens", false] }, 1, 0] },
+					},
+				},
+			},
+			{
+				$sort: {
+					firstname: 1,
+				},
+			},
+			{
+				$skip: (page - 1) * pageSize,
+			},
+			{
+				$limit: pageSize,
 			}
-		},
-		{
-			$unwind: {
-				path: '$nombreChiens',
-				preserveNullAndEmptyArrays: true
-			  }
-		},
-		{
-			$addFields: {
-			  nombreChiens: {
-				$cond: {
-				  if: '$nombreChiens',
-				  then: 1,
-				  else: 0
-				}
-			  }
-			}
-		  },
-		{
-			$group: {
-				_id: "$_id",
-				firstname: { $first: "$firstname" },
-				lastname: { $first: "$lastname" },
-				birthdate: { $first: "$birthdate" },
-				localisation: { $first: "$localisation" },
-				isAdmin: { $first: "$isAdmin" },
-				nombreChiens: { $sum: { $cond: [{ $ifNull: ["$nombreChiens", false] }, 1, 0] } }
-			}
-		},
-		{
-			$sort: {
-			  firstname: 1
-			}
-		},
-		{
-			$skip: (page - 1) * pageSize
-		},
-		{
-			$limit: pageSize
-		}
-	);
-	User.aggregate(pipeline)
-	.exec()
-	.then((users) => {
-		utils.addLinkHeader('/users', page, pageSize, total, res);
-		res.send(
-			users.map(user => {
-				const serialized = new User(user).toJSON();
-
-				serialized.nombreChiens = user.nombreChiens;
-				return serialized;
-			})
 		);
-	})
-	.catch(next);
+		User.aggregate(pipeline)
+			.exec()
+			.then((users) => {
+				utils.addLinkHeader("/users", page, pageSize, total, res);
+				res.send(
+					users.map((user) => {
+						const serialized = new User(user).toJSON();
+
+						serialized.nombreChiens = user.nombreChiens;
+						return serialized;
+					})
+				);
+			})
+			.catch(next);
 	});
 });
 
 function queryUser(req) {
 	let query = User.find();
 	return query;
-  }
+}
 /**
  * @swagger
  * /users/admin:
@@ -128,17 +131,39 @@ function queryUser(req) {
 /* GET users listing. */
 router.get("/admin", function (req, res, next) {
 	//affiche que les admins
-	const query = {isAdmin: true};
+	const query = { isAdmin: true };
 	User.find(query)
-        .sort("firstname")
-        .exec()
-        .then((users) => {
-            res.send(users);
-        })
-        .catch((err) => {
-            next(err);
-        });
+		.sort("firstname")
+		.exec()
+		.then((users) => {
+			res.send(users);
+		})
+		.catch((err) => {
+			next(err);
+		});
 });
+
+/**
+ * @swagger
+ * /users/{id}:
+ *  get:
+ *   summary: 'List the details of a user'
+ *   tags:
+ *    - 'users'
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     type: string
+ *     description: The user's ID
+ *     required: true
+ *   responses:
+ *    200:
+ *     description: The user description by id
+ *    404:
+ *     description: The user was not found, this user's ID might not exist
+ *    500:
+ *     description: Some error happened
+ */
 
 router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 	User.findById(req.params.id)
@@ -156,7 +181,7 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
  * /users:
  *  post:
  *   summary: 'Create a user'
- *   tags: 
+ *   tags:
  *    - users
  *   requestBody:
  *    description: The user to create
@@ -223,12 +248,12 @@ router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
 	try {
-        // Hachez le mot de passe avant de créer l'utilisateur
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+		// Hachez le mot de passe avant de créer l'utilisateur
+		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-        // Créez un nouvel utilisateur avec le mot de passe haché
-        const newUser = new User({
-            firstname: req.body.firstname,
+		// Créez un nouvel utilisateur avec le mot de passe haché
+		const newUser = new User({
+			firstname: req.body.firstname,
 			lastname: req.body.lastname,
 			email: req.body.email,
 			password: hashedPassword,
@@ -237,16 +262,16 @@ router.post("/", async (req, res, next) => {
 			isAdmin: req.body.isAdmin,
 			localisation: req.body.localisation,
 			currentPath: req.body.currentPath,
-        });
+		});
 
-        // Enregistrez le nouvel utilisateur
-        const savedUser = await newUser.save();
+		// Enregistrez le nouvel utilisateur
+		const savedUser = await newUser.save();
 
-        // Envoyez la réponse avec l'utilisateur sauvegardé
-        res.send(savedUser);
-    } catch (err) {
-        next(err);
-    }
+		// Envoyez la réponse avec l'utilisateur sauvegardé
+		res.send(savedUser);
+	} catch (err) {
+		next(err);
+	}
 });
 
 router.patch(
@@ -301,16 +326,20 @@ router.patch(
 	}
 );
 
-router.patch("/:id/join/:walkId", loadUserFromParamsMiddleware, (req, res, next) => {
-	req.user.currentPath = req.params.walkId;
-	req.user
-		.save()
-		.then((savedUser) => {
+router.patch(
+	"/:id/join/:walkId",
+	loadUserFromParamsMiddleware,
+	(req, res, next) => {
+		req.user.currentPath = req.params.walkId;
+		req.user
+			.save()
+			.then((savedUser) => {
 			broadcastMessage({ message: "Quelqu'un a rejoins une balade, rejoins le !"});
-			res.send(savedUser);
-		})
-		.catch(next);
-});
+				res.send(savedUser);
+			})
+			.catch(next);
+	}
+);
 
 router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user.currentPath = null;
