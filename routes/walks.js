@@ -3,6 +3,7 @@ import Walk from "../models/walk.js";
 import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
 import { broadcastMessage } from "../messaging.js";
+import { authenticate } from "../utils/authenticate.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -37,7 +38,7 @@ router.get("/:id", (req, res, next) => {
 });
 
 /* POST new walk */
-router.post("/", (req, res, next) => {
+router.post("/", authenticate, (req, res, next) => {
 	// Create a new document from the JSON in the request body
 	const newWalk = new Walk(req.body);
 	// Save that document

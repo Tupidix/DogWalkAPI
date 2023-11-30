@@ -26,3 +26,7 @@ Au dessous, nous avons une liste avec ces même promeneurs qui sont triés par o
 Chaque utilisateur aura possibilité d'indiquer une tension entre son chien et un autre, cette fonctionnalité ne pourra être utilisée que par la personne susmentionnée et non pas par des utilisateurs tiers.
 
 Dès qu'un conflit est enregistré, les promeneurs en questions apparaitrons toujours sur la carte ou dans la liste (afin de savoir où il ne faut pas y aller) mais de manière grisée. De plus, si un utilisateur en promenade est à une distance de 500m d'un "ennemi", une notification apparaîtra pour le lui dire.
+
+## WebSocket
+
+Vous pouvez vous connecter à notre WebSocket afin de recevoir des notifications grâce à l'adresse "ws://dogwalkapi.onrender.com" sur Postman. Il y a une notification qui se lance quand une route est créée et quand un utilisateur rejoins une route.
