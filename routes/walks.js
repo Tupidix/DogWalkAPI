@@ -117,6 +117,57 @@ router.post("/", authenticate, (req, res, next) => {
 		});
 });
 
+/**
+ * @swagger
+ * '/walks/{id}':
+ *  patch:
+ *    summary: 'Update certain properties of a walk'
+ *    tags:
+ *      - walks
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        type: string
+ *        description: The walk's ID
+ *    required: true
+ *    requestBody:
+ *      description: The fields to update
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: Walk 1
+ *              path:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      enum: Point
+ *                    coordinate:
+ *                      type: array
+ *                      items:
+ *                        type: number
+ *                        description: The walk's path.
+ *              creator:
+ *                type: string
+ *                format: ObjectId
+ *                example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *        
+ *    responses:
+ *      200:
+ *        description: The walk was updated
+ *      404:
+ *        description: The walk was not found, this walk's ID might not exist
+ *      500:
+ *        description: Some error happened
+ */
+
+
 router.patch(
 	"/:id",
 	requireJson,
@@ -144,6 +195,57 @@ router.patch(
 			.catch(next);
 	}
 );
+
+/**
+ * @swagger
+ * '/walks/{id}':
+ *  put:
+ *    summary: 'Update all properties of a walk'
+ *    tags:
+ *      - walks
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        type: string
+ *        description: The walk's ID
+ *    required: true
+ *    requestBody:
+ *      description: The fields to update
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: Walk 1
+ *              path:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      enum: Point
+ *                    coordinate:
+ *                      type: array
+ *                      items:
+ *                        type: number
+ *                        description: The walk's path.
+ *              creator:
+ *                type: string
+ *                format: ObjectId
+ *                example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *        
+ *    responses:
+ *      200:
+ *        description: The walk was updated
+ *      404:
+ *        description: The walk was not found, this walk's ID might not exist
+ *      500:
+ *        description: Some error happened
+ */
+
 
 router.put(
 	"/:id",
