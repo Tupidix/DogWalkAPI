@@ -2,6 +2,7 @@ import express from "express";
 import Walk from "../models/walk.js";
 import mongoose from "mongoose";
 import requireJson from "../utils/requirejson.js";
+import { broadcastMessage } from "../messaging.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -43,6 +44,7 @@ router.post("/", (req, res, next) => {
 	newWalk
 		.save()
 		.then((savedWalk) => {
+			broadcastMessage({ message: "Une balade a été créée proche de vous", title: savedWalk.title });
 			// Send the saved document in the response
 			res.send(savedWalk);
 		})

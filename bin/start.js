@@ -7,8 +7,9 @@
 import app from "../app.js";
 import createDebugger from "debug";
 import http from "http";
+import {createWebSocketServer} from "../messaging.js";
 
-const debug = createDebugger('projet-dogwalk:server')
+const debug = createDebugger('express-api:server')
 /**
  * Get port from environment and store in Express.
  */
@@ -21,6 +22,8 @@ app.set("port", port);
  */
 
 const server = http.createServer(app);
+
+createWebSocketServer(server);
 
 /**
  * Listen on provided port, on all network interfaces.
