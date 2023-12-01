@@ -141,7 +141,7 @@ router.post("/", authenticate, (req, res, next) => {
 				return res.status(403).send("You must set yourself as the creator of this walk");
 			}
 			broadcastMessage({
-				message: "Une balade a été créée proche de vous.",
+				message: "A walk has been created close to you",
 				title: savedWalk.title,
 			});
 			// Send the saved document in the response

@@ -524,7 +524,7 @@ router.patch(
 			.save()
 			.then((savedUser) => {
 				broadcastMessage({
-					message: "Quelqu'un a rejoins une balade, rejoins le !",
+					message: "A user joined a walk, join him !",
 				});
 				res.send(savedUser);
 			})
