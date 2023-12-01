@@ -22,8 +22,13 @@ const swaggerOptions = {
 		description: 'A simple Express API for dog walking',
 	  },
 	  components: {
-	  },
-	  security: {
+		securitySchemes: {
+		  bearerAuth: {
+			type: 'http',
+			scheme: 'bearer',
+			description: 'Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345".',
+	  		},
+		},
 	  },
 	  servers: [
 		{

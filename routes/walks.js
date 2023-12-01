@@ -84,10 +84,6 @@ router.get("/:id", (req, res, next) => {
  *   tags:
  *    - 'walks'
  *   description: Create a walk
- *   parameters:
- *     - in: header
- *      name: Authorization
- *      type: string
  *   requestBody:
  *      description: The fields to update
  *      content:
