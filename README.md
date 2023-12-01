@@ -1,7 +1,5 @@
 # DogWalk API
 
----
-
 ## About
 
 DogWalk is an API developed to connect dog owners and dog walkers in their local communities. The API aims to foster a sense of camaraderie among dog owners and make dog walking a more enjoyable and social experience. It provides features for managing users, dogs and walks. It also uses hardware API's for notifications and managing users position tracking.
