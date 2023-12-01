@@ -373,7 +373,7 @@ router.delete(
     req.dog
       .deleteOne()
       .then(() => {
-        res.sendStatus(204);
+        res.sendStatus(204).send("The dog was deleted");
       })
       .catch(next);
   }
