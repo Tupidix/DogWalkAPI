@@ -186,13 +186,14 @@ router.post("/", authenticate, (req, res, next) => {
  *                  type: object
  *                  properties:
  *                    type:
- *                      type: string
+ *                      type: String
+ *                      required: true
  *                      enum: 
- *                       - Point
+ *                       - "Point"
  *                    coordinate:
  *                      type: array
  *                      items:
- *                        type: number
+ *                        type: Number
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
