@@ -34,7 +34,7 @@ export async function createUserAndGetTokenAndUser() {
 			},
 		});
 
-	// Connexion avec le user fraichement créé pour récupérer le token
+	// // Connexion avec le user fraichement créé pour récupérer le token
 	await supertest(app).post("/login").send({
 		email: "prof@prof.ch",
 		password: "TheTeacher123",
@@ -44,8 +44,15 @@ export async function createUserAndGetTokenAndUser() {
 	// On test qu'on arrive à GET les USER avec le token
 	const token = await generateValidJwt(user);
 
+	// Get the user ID
+	const userRecu = await supertest(app)
+		.get("/users")
+		.set("Authorization", `Bearer ${token}`)
+		.expect(200)
+		.expect("Content-Type", /json/);
+
 	return {
 		token: token,
-		id: user._id,
+		id: userRecu.body[0]._id.toString(),
 	};
 }
