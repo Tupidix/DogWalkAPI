@@ -67,7 +67,7 @@ router.get("/", authenticate, function (req, res, next) {
  *     description: Some error happened
  */
 
-router.get("/:id", authenticate, loadDogFromParamsMiddleware, (req, res, next) => {
+router.get("/:id", authenticate, loadDogFromParamsMiddlewareForGet, (req, res, next) => {
 	Dog.findById(req.params.id)
 		.exec()
 		.then((dogs) => {
@@ -356,6 +356,30 @@ router.delete("/:id", authenticate, loadDogFromParamsMiddleware, (req, res, next
 });
 
 function loadDogFromParamsMiddleware(req, res, next) {
+	const dogId = req.params.id;
+	if (!ObjectId.isValid(dogId)) {
+		return dogNotFound(res, dogId);
+	}
+
+	let query = Dog.findById(dogId);
+
+	query
+		.exec()
+		.then((dog) => {
+			if (!dog) {
+				return dogNotFound(res, dogId);
+			}
+			if (req.currentUserId !== dog.master.toString()) {
+				return res.status(403).send("You are not the master of this dog");
+			}
+
+			req.dog = dog;
+			next();
+		})
+		.catch(next);
+}
+
+function loadDogFromParamsMiddlewareForGet(req, res, next) {
 	const dogId = req.params.id;
 	if (!ObjectId.isValid(dogId)) {
 		return dogNotFound(res, dogId);
