@@ -88,7 +88,6 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  *   description: You must delete the double quotes in the coordinate array in the request body, we can't turn it into an array of numbers
  *   tags:
  *    - 'walks'
- *   description: Create a walk
  *   security:
  *    - bearerAuth: []
  *   requestBody:

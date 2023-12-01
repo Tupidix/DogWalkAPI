@@ -20,7 +20,7 @@ const swaggerOptions = {
       title: "Dog Walk API",
       version: 1.0,
       description:
-        "A simple Express API for dog walking apps. \n If there' a lock, you need to be authenticated to send the request \n You must log in and you'll receive your token",
+        "A simple Express API for dog walking apps. \n If there' a lock, you need to be authenticated to send the request. \n You must log in and you'll receive your token.",
     },
     components: {
       securitySchemes: {
