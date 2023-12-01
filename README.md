@@ -1,32 +1,72 @@
-# ArchiOWeb - DogWalk
+# DogWalk API
 
-## Principe de l'API
+---
 
-Faire une application mobile micro-communautaire de "baladeurs de chiens".
+## About
 
-Nous souhaitons utiliser les chiens, les propriétaires et leur localisation comme sources pour pouvoir les afficher sur une map que seules les personnes se promenant actuellement voient.
-Le principe est de ne pas s'embêter à promener son chien seul, mais d'en profiter pour faire des rencontres !
+DogWalk is an API developed to connect dog owners and dog walkers in their local communities. The API aims to foster a sense of camaraderie among dog owners and make dog walking a more enjoyable and social experience. It provides features for managing users, dogs and walks. It also uses hardware API's for notifications and managing users position tracking.
+Enabling dog owners to easily find and connect with other dog walkers in their vicinity.
 
-Pour ce qui est des API hardware nous utiliserons donc la géolocalisation ainsi que les notifications pour les avertir quand quelqu'un lance une promenade.
+## Members
 
-## Prises de notes en classe
+    - [Dorasamy Ryan](https://github.com/tupidix)
+    - [Marques Meliciano Patrick](https://github.com/PatrickMarques24)
+    - [Martins Quinteiros Miguel](https://github.com/quinteirosm)
 
-Il y aura trois ressources
+## Features
 
-api/users
-api/dogs
-api/walks
+DogWalk offers several key features to facilitate dog walking connections:
 
-Ces trois ressources seront agrégées entre elles
+- **User Management**: Create, update, and manage user profiles, including user credentials, contact information, and preferences.
 
-Sur l'écran principal, nous aurons une map avec des pins sur la carte où l'on voit les promeneurs en train de faire une promenade.
+- **Dog Management**: Register, update, and manage dog profiles, including dog name, breed, age, and temperament.
 
-Au dessous, nous avons une liste avec ces même promeneurs qui sont triés par ordre de proximité de l'utilisateur.
+- **Dog Rivalry**: You can register other dogs as ennemies, thus they won't be able to join you and you'll receive a notification if they're closer to you while walking your dog.
 
-Chaque utilisateur aura possibilité d'indiquer une tension entre son chien et un autre, cette fonctionnalité ne pourra (idéalement) être utilisée que par la personne susmentionnée et non pas par des utilisateurs tiers.
+- **Walk Management**: Create, schedule, and manage dog walks, specifying location, duration, and availability.
 
-Dès qu'un conflit est enregistré, les promeneurs en questions apparaitrons toujours sur la carte ou dans la liste (afin de savoir où il ne faut pas y aller) mais de manière grisée. De plus, si un utilisateur en promenade est à une distance de 500m d'un "ennemi", une notification apparaîtra pour le lui dire.
+- **Location-Based Matching**: Find dog walkers and walks in the user's vicinity, using geolocation features.
+
+- **Walk Joining**: Dog owners can join available walks or request to join unscheduled walks.
+
+- **Real-Time Communication**: Dog owners and walkers can communicate directly through in-app messaging.
+
+- **Walk History**: Track and view past walks for each user and dog.
+
+## How to Use
+
+To utilize the DogWalk API, follow these steps:
+
+1. **Installation**:
+
+   - Clone the repository: `git clone https://github.com/YourRepository/DogWalk.git`
+   - Install dependencies: `npm install`
+
+2. **Configuration**:
+
+   - Configure your database and environment variables in the `config/` directory.
+
+3. **Starting the API**:
+
+   - Launch the API using `npm start` or `node bin/start.js`.
+
+4. **Usage**:
+   - Utilize an API client like Postman or cURL to interact with the API.
+   - Refer to the API documentation (OpenAPI specification) for detailed information on available routes, methods, and expected responses.
 
 ## WebSocket
 
 Vous pouvez vous connecter à notre WebSocket afin de recevoir des notifications grâce à l'adresse "ws://dogwalkapi.onrender.com" sur Postman. Il y a une notification qui se lance quand une route est créée et quand un utilisateur rejoins une route.
+
+## API Documentation
+
+Once the API is running, the documentation can be accessed via the API docs URL: [localhost:3000/api-docs](http://localhost:3000/api-docs), offering an interactive interface to explore and test the API's endpoints.
+
+Production documentation URL : [dogwalkapi.onrender.com/api-docs/](https://dogwalkapi.onrender.com/api-docs/).
+
+## Tests
+
+Unit and integration tests are available in the `tests/` directory. You can run them with `npm run test` to ensure the quality and reliability of the API.
+
+## License
+This project is licensed under the MIT License.
