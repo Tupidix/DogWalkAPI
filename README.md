@@ -9,9 +9,9 @@ Enabling dog owners to easily find and connect with other dog walkers in their v
 
 ## Members
 
-    - [Dorasamy Ryan](https://github.com/tupidix)
-    - [Marques Meliciano Patrick](https://github.com/PatrickMarques24)
-    - [Martins Quinteiros Miguel](https://github.com/quinteirosm)
+- [Dorasamy Ryan](https://github.com/tupidix)
+- [Marques Meliciano Patrick](https://github.com/PatrickMarques24)
+- [Martins Quinteiros Miguel](https://github.com/quinteirosm)
 
 ## Features
 
