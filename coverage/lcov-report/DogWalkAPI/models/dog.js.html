@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/25</span>
+                <span class='fraction'>10/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">31.25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>5/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/25</span>
+                <span class='fraction'>10/25</span>
             </div>
         
             
@@ -281,8 +281,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -317,24 +317,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -419,9 +419,9 @@ const dogSchema = new Schema({
             },
         ],
         validate: {
-            validator: <span class="fstat-no" title="function not covered" >as</span>ync function (value) {
-<span class="cstat-no" title="statement not covered" >                if (!Array.isArray(value) || value.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >                    throw new Error("You must have at least one master");</span>
+            validator: async function (value) {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (!Array.isArray(value) || value.length === 0) {
+                    throw new Error("You must have at least one master");
                 }
 &nbsp;
                 // Vérifier chaque ID dans le tableau
@@ -454,10 +454,10 @@ const dogSchema = new Schema({
             },
         ],
         validate: {
-            validator: <span class="fstat-no" title="function not covered" >as</span>ync function (value) {
+            validator: async function (value) {
                 // Vérifier chaque ID dans le tableau
-                let ArrayOfNonExistingIDs = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >                for (const id of value) {</span>
+                let ArrayOfNonExistingIDs = [];
+                for (const id of value) {
                     const user = <span class="cstat-no" title="statement not covered" >await mongoose.model("Dog").findOne({ _id: id }).exec();</span>
 <span class="cstat-no" title="statement not covered" >                    if (!user) {</span>
                         // On va banquer les IDs qui n'existent pas pour tous les afficher à la fin au moment du dévoilement de l'erreur
@@ -465,15 +465,15 @@ const dogSchema = new Schema({
                     }
                 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                if (ArrayOfNonExistingIDs.length === 1) {</span>
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (ArrayOfNonExistingIDs.length === 1) {
 <span class="cstat-no" title="statement not covered" >                    throw new Error(`This dog doesn't exist: ${ArrayOfNonExistingIDs}`);</span>
                 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                if (ArrayOfNonExistingIDs.length &gt; 1) {</span>
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (ArrayOfNonExistingIDs.length &gt; 1) {
 <span class="cstat-no" title="statement not covered" >                    throw new Error(`These dogs don't exist: ${ArrayOfNonExistingIDs}`);</span>
                 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                return true; </span>// Tous les IDs existent
+                return true; // Tous les IDs existent
             },
         },
     },
@@ -487,7 +487,7 @@ export default mongoose.model("Dog", dogSchema);</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-12-01T14:34:06.096Z
+                at 2023-12-01T20:21:00.599Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

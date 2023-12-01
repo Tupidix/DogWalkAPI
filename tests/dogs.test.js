@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import supertest from "supertest";
 import app from "../app.js";
+import { cleanUpDatabase } from "../utils/databaseoperations.js";
+
+beforeEach(async () => {
+	await cleanUpDatabase();
+});
 
 describe("POST /dogs", () => {
 	it("should throw an error if not authenticate", async () => {
@@ -17,7 +22,7 @@ describe("POST /dogs", () => {
 
 		expect(response.status).toEqual(401);
 
-		expect(response.text).toEqual("Authorization header is missing");
+		expect(response.text).toEqual("You need to set the Authorization token");
 	});
 });
 

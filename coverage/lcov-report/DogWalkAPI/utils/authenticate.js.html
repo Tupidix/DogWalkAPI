@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.46% </span>
+                <span class="strong">84.61% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/13</span>
+                <span class='fraction'>11/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.46% </span>
+                <span class="strong">84.61% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/13</span>
+                <span class='fraction'>11/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,20 +96,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -122,19 +122,19 @@ const verifyJwt = promisify(jwt.verify);
 export function authenticate(req, res, next) {
   // Ensure the header is present.
   const authorization = req.get("Authorization");
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (!authorization) {
+  if (!authorization) {
     return res.status(401).send("You need to set the Authorization token");
   }
   // Check that the header has the correct format.
-  const match = <span class="cstat-no" title="statement not covered" >authorization.match(/^Bearer (.+)$/);</span>
-<span class="cstat-no" title="statement not covered" >  if (!match) {</span>
+  const match = authorization.match(/^Bearer (.+)$/);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!match) {
 <span class="cstat-no" title="statement not covered" >    return res.status(401).send("Authorization header is not a bearer token");</span>
   }
   // Extract and verify the JWT.
-  const token = <span class="cstat-no" title="statement not covered" >match[1];</span>
-<span class="cstat-no" title="statement not covered" >  verifyJwt(token, secretKey).then(<span class="fstat-no" title="function not covered" >pa</span>yload =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    req.currentUserId = payload.sub;</span>
-<span class="cstat-no" title="statement not covered" >    next(); </span>// Pass the ID of the authenticated user to the next middleware.
+  const token = match[1];
+  verifyJwt(token, secretKey).then(payload =&gt; {
+    req.currentUserId = payload.sub;
+    next(); // Pass the ID of the authenticated user to the next middleware.
   }).catch(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >    res.status(401).send("Your token is invalid or has expired");</span>
   });
@@ -145,7 +145,7 @@ export function authenticate(req, res, next) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-12-01T14:34:06.096Z
+                at 2023-12-01T20:21:00.599Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
