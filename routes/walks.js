@@ -107,7 +107,8 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  *                  properties:
  *                    type:
  *                      type: string
- *                      enum: Point
+ *                      enum: 
+ *                       - Point
  *                    coordinate:
  *                      type: array
  *                      items:
@@ -186,7 +187,8 @@ router.post("/", authenticate, (req, res, next) => {
  *                  properties:
  *                    type:
  *                      type: string
- *                      enum: Point
+ *                      enum: 
+ *                       - Point
  *                    coordinate:
  *                      type: array
  *                      items:
@@ -270,7 +272,8 @@ router.patch(
  *                  properties:
  *                    type:
  *                      type: string
- *                      enum: Point
+ *                      enum: 
+ *                       - Point
  *                    coordinate:
  *                      type: array
  *                      items:
