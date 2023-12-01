@@ -336,7 +336,7 @@ router.post("/login", (req, res, next) => {
 
 				signJwt(payload, secret).then((jwt) => {
 					res.send({
-						message: `Bienvenue ${user.firstname} ${user.lastname}`,
+						message: `Welcome ${user.firstname} ${user.lastname}`,
 						token: jwt,
 					});
 				});
