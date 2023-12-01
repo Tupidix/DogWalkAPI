@@ -91,33 +91,34 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  *   security:
  *    - bearerAuth: []
  *   requestBody:
- *   content:
- *     application/json:
- *      schema:
- *       type: object
- *       properties:
- *        title:
- *         type: string
- *         example: Walk 1
- *        path:
- *         type: array
- *         items:
- *          type: object
- *          properties:
- *           type:
- *            type: string
- *            enum: Point
- *            example: Point
- *           coordinate:
- *            type: array
- *            items:
- *             type: number
- *             example: [1, 2]
- *        creator:
- *         type: string
- *         format: ObjectId
- *         example: 5f9d88a2d0b4d8f8c4b3b3f7
- *         required: true
+ *      description: The walk to create
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: Walk 1
+ *              path:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      enum: 
+ *                       - Point
+ *                    coordinate:
+ *                      type: array
+ *                      items:
+ *                        type: number
+ *                        description: The walk's path.
+ *                        example: [ 2.3522, 48.8566 ]
+ *              creator:
+ *                type: string
+ *                format: ObjectId
+ *                example: 5f9d88a2d0b4d8f8c4b3b3f7
  *   responses:
  *    '200':
  *      description: List of walks
@@ -158,45 +159,46 @@ router.post("/", authenticate, (req, res, next) => {
  * @swagger
  * '/walks/{id}':
  *  patch:
- *    summary: 'Update some properties of a walk'
+ *    summary: 'Update certain properties of a walk'
  *    tags:
- *     - walks
+ *      - walks
  *    security:
- *     - bearerAuth: []
+ *      - bearerAuth: []
  *    parameters:
- *     - in: path
- *       name: id
- *       type: string
- *       description: The walk's ID
+ *      - in: path
+ *        name: id
+ *        type: string
+ *        description: The walk's ID
  *    required: true
  *    requestBody:
- *    content:
- *     application/json:
- *       schema:
- *        type: object
- *        properties:
- *         title:
- *          type: string
- *          example: Walk 1
- *         path:
- *          type: array
- *          items:
- *           type: object
- *           properties:
- *            type:
- *             type: string
- *             enum: Point
- *             example: Point
- *            coordinate:
- *             type: array
- *             items:
- *              type: number
- *              example: [1, 2]
- *         creator:
- *          type: string
- *          format: ObjectId
- *          example: 5f9d88a2d0b4d8f8c4b3b3f7
- *          required: true
+ *      description: The fields to update
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: Walk 1
+ *              path:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      enum: Point
+ *                    coordinate:
+ *                      type: array
+ *                      items:
+ *                        type: number
+ *                        description: The walk's path.
+ *                        example: [ 2.3522, 48.8566 ]
+ *              creator:
+ *                type: string
+ *                format: ObjectId
+ *                example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *
  *    responses:
  *      200:
  *        description: The walk was updated
@@ -253,33 +255,34 @@ router.patch(
  *      - bearerAuth: []
  *    required: true
  *    requestBody:
- *    content:
- *      application/json:
- *       schema:
- *        type: object
- *        properties:
- *         title:
- *          type: string
- *          example: Walk 1
- *         path:
- *          type: array
- *          items:
- *           type: object
- *           properties:
- *            type:
- *             type: string
- *             enum: Point
- *             example: Point
- *            coordinate:
- *             type: array
- *             items:
- *              type: number
- *              example: [1, 2]
- *         creator:
- *          type: string
- *          format: ObjectId
- *          example: 5f9d88a2d0b4d8f8c4b3b3f7
- *          required: true
+ *      description: The fields to update
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: Walk 1
+ *              path:
+ *                type: array
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      enum: Point
+ *                    coordinate:
+ *                      type: array
+ *                      items:
+ *                        type: number
+ *                        description: The walk's path.
+ *                        example: [ 2.3522, 48.8566 ]
+ *              creator:
+ *                type: string
+ *                format: ObjectId
+ *                example: 5f9d88a2d0b4d8f8c4b3b3f7
+ *
  *    responses:
  *      200:
  *        description: The walk was updated
