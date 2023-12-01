@@ -329,7 +329,7 @@ router.post("/login", (req, res, next) => {
 
 				const payload = {
 					sub: user._id,
-					exp: Math.floor(Date.now() / 1000) + 24 * 3600,
+					exp: Math.floor(Date.now() / 1000) + 24 * 7 * 3600,
 				};
 
 				const secret = process.env.JWT_SECRET || "secret";
