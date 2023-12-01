@@ -113,6 +113,7 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  *                      type: array
  *                      items:
  *                        type: number
+ *                        format: double
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
@@ -160,6 +161,7 @@ router.post("/", authenticate, (req, res, next) => {
  * '/walks/{id}':
  *  patch:
  *    summary: 'Update certain properties of a walk'
+ *    description: 'You must delete the double quotes in the coordinate array in the request body'
  *    tags:
  *      - walks
  *    security:
@@ -194,6 +196,7 @@ router.post("/", authenticate, (req, res, next) => {
  *                      type: array
  *                      items:
  *                        type: Number
+ *                        format: double
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
@@ -279,6 +282,7 @@ router.patch(
  *                      type: array
  *                      items:
  *                        type: number
+ *                        format: double
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
