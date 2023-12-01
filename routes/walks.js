@@ -20,6 +20,8 @@ const router = express.Router();
  *   summary: List all walks
  *   tags:
  *    - 'walks'
+ *   security:
+ *    - bearerAuth: []
  *   description: List all walks
  *   responses:
  *    '200':

@@ -82,6 +82,8 @@ router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
  *   tags:
  *    - dogs
  *   description: "The auth token generated from the login route must be copied in the field (with Bearer in front of it like: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')"
+ *   security:
+ *    - bearerAuth: []
  *   requestBody:
  *    description: The dog to create
  *    required: true
