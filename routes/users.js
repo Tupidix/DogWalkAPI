@@ -336,7 +336,7 @@ router.post("/login", (req, res, next) => {
 
 				signJwt(payload, secret).then((jwt) => {
 					res.send({
-						message: `Bienvenue ${user.firstname} ${user.lastname}`,
+						message: `Welcome ${user.firstname} ${user.lastname}`,
 						token: jwt,
 					});
 				});
@@ -750,8 +750,8 @@ function loadUserFromParamsMiddleware(req, res, next) {
 			if (!user) {
 				return userNotFound(res, userId);
 			}
-			if (user._id.toString() !== req.user._id.toString()) {
-				return res.status(403).send("You can't modify this user");
+			if (req.currentUserId !== user._id.toString()) {
+				return res.status(403).send("You can only modify/delete your own user");
 			}
 			req.user = user;
 			next();
