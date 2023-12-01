@@ -56,6 +56,11 @@ To utilize the DogWalk API, follow these steps:
 
 To receive notifications from the DogWalk API, connect to our WebSocket at "ws://dogwalkapi.onrender.com" on Postman. Notifications are triggered when a route is created or when a user joins a route.
 
+The notifications are the following:
+
+- **User joined a walk** : When a user joins a walk, you receive 'A user joined a walk, join him!'
+- **New walk created** : When a user creates a walk, you receiva 'A walk has been created close to you'
+
 ## API Documentation
 
 Once the API is running, the documentation can be accessed via the API docs URL: [localhost:3000/api-docs](http://localhost:3000/api-docs), offering an interactive interface to explore and test the API's endpoints.
