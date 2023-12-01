@@ -31,7 +31,7 @@ const router = express.Router();
  */
 
 /* GET walks listing. */
-router.get("/", function (req, res, next) {
+router.get("/", authenticate, function (req, res, next) {
 	Walk.find()
 		.sort("name")
 		.exec()
@@ -65,7 +65,7 @@ router.get("/", function (req, res, next) {
  *     description: Some error happened
  */
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", authenticate, (req, res, next) => {
 	Walk.findById(req.params.id)
 		.exec()
 		.then((walks) => {
@@ -200,6 +200,7 @@ router.post("/", authenticate, (req, res, next) => {
 router.patch(
 	"/:id",
 	requireJson,
+	authenticate,
 	loadWalkFromParamsMiddleware,
 	(req, res, next) => {
 		// Update only properties present in the request body
@@ -280,6 +281,7 @@ router.patch(
 router.put(
 	"/:id",
 	requireJson,
+	authenticate,
 	loadWalkFromParamsMiddleware,
 	(req, res, next) => {
 		// Update all properties
@@ -327,7 +329,7 @@ router.put(
  *     description: Some error happened
  */
 
-router.delete("/:id", loadWalkFromParamsMiddleware, (req, res, next) => {
+router.delete("/:id", authenticate, loadWalkFromParamsMiddleware, (req, res, next) => {
 	req.walk
 		.deleteOne()
 		.then(() => {

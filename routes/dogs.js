@@ -29,7 +29,7 @@ const router = express.Router();
  *     description: Some error happened
  */
 
-router.get("/", function (req, res, next) {
+router.get("/", authenticate, function (req, res, next) {
 	Dog.find()
 		.sort("name")
 		.exec()
@@ -63,7 +63,7 @@ router.get("/", function (req, res, next) {
  *     description: Some error happened
  */
 
-router.get("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
+router.get("/:id", authenticate, loadDogFromParamsMiddleware, (req, res, next) => {
 	Dog.findById(req.params.id)
 		.exec()
 		.then((dogs) => {
@@ -187,7 +187,7 @@ router.post("/", authenticate, (req, res, next) => {
 
 router.patch(
 	"/:id",
-	requireJson,
+	requireJson, authenticate,
 	loadDogFromParamsMiddleware,
 	(req, res, next) => {
 		// Update only properties present in the request body
@@ -280,6 +280,7 @@ router.patch(
 router.put(
 	"/:id",
 	requireJson,
+	authenticate,
 	loadDogFromParamsMiddleware,
 	(req, res, next) => {
 		// Update all properties
@@ -338,7 +339,7 @@ router.put(
  *       description: Some error happened
  */
 
-router.delete("/:id", loadDogFromParamsMiddleware, (req, res, next) => {
+router.delete("/:id", authenticate, loadDogFromParamsMiddleware, (req, res, next) => {
 	req.dog
 		.deleteOne()
 		.then(() => {

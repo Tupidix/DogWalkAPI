@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import * as utils from "../utils/pagination.js";
 import { broadcastMessage } from "../messaging.js";
+import { authenticate } from "../utils/authenticate.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -35,7 +36,7 @@ const signJwt = promisify(jwt.sign);
 // 	res.send("Got a response from the users route");
 // });
 
-router.get("/", function (req, res, next) {
+router.get("/", authenticate, function (req, res, next) {
 	const countQuery = queryUser(req);
 	countQuery.countDocuments().then((total) => {
 		const { page, pageSize } = utils.getPaginationParameters(req);
@@ -133,7 +134,7 @@ function queryUser(req) {
  */
 
 /* GET users listing. */
-router.get("/admin", function (req, res, next) {
+router.get("/admin", authenticate, function (req, res, next) {
 	//affiche que les admins
 	const query = { isAdmin: true };
 	User.find(query)
@@ -169,7 +170,7 @@ router.get("/admin", function (req, res, next) {
  *     description: Some error happened
  */
 
-router.get("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
+router.get("/:id", authenticate, loadUserFromParamsMiddleware, (req, res, next) => {
 	User.findById(req.params.id)
 		.exec()
 		.then((users) => {
@@ -416,6 +417,7 @@ router.post("/login", (req, res, next) => {
 router.patch(
 	"/:id",
 	requireJson,
+	authenticate,
 	loadUserFromParamsMiddleware,
 	(req, res, next) => {
 		// Update only properties present in the request body
@@ -504,6 +506,7 @@ router.patch(
 
 router.patch(
 	"/:id/join/:walkId",
+	authenticate,
 	loadUserFromParamsMiddleware,
 	(req, res, next) => {
 		req.user.currentPath = req.params.walkId;
@@ -551,7 +554,7 @@ router.patch(
  *       description: Some error happened
  */
 
-router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
+router.patch("/:id/leave", authenticate, loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user.currentPath = null;
 	req.user
 		.save()
@@ -642,6 +645,7 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
 router.put(
 	"/:id",
 	requireJson,
+	authenticate,
 	loadUserFromParamsMiddleware,
 	(req, res, next) => {
 		// Update all properties
@@ -705,7 +709,7 @@ router.put(
  *     description: Some error happened
  */
 
-router.delete("/:id", loadUserFromParamsMiddleware, (req, res, next) => {
+router.delete("/:id", authenticate, loadUserFromParamsMiddleware, (req, res, next) => {
 	req.user
 		.deleteOne()
 		.then(() => {
