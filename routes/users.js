@@ -719,6 +719,8 @@ router.put(
  *   responses:
  *    '204':
  *     description: The user was deleted
+ *    '403':
+ *     description: You are not the creator of this user
  *    '404':
  *     description: The user was not found, this user's ID might not exist
  *    '500':

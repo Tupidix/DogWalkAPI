@@ -123,6 +123,8 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  *      description: List of walks
  *    '401':
  *      description: You need to be authenticated to do that
+ *    '403':
+ *      description: You are not the creator of this walk
  *    '404':
  *      description: No walk found
  *    '500':
@@ -198,6 +200,8 @@ router.post("/", authenticate, (req, res, next) => {
  *    responses:
  *      200:
  *        description: The walk was updated
+ *      403:
+ *        description: You are not the creator of this walk
  *      404:
  *        description: The walk was not found, this walk's ID might not exist
  *      500:
@@ -279,6 +283,8 @@ router.patch(
  *    responses:
  *      200:
  *        description: The walk was updated
+ *      403:
+ *        description: You are not the creator of this walk
  *      404:
  *        description: The walk was not found, this walk's ID might not exist
  *      500:
@@ -334,6 +340,8 @@ router.put(
  *   responses:
  *    '204':
  *     description: The walk was deleted
+ *    '403':
+ *     description: You are not the creator of this walk
  *    '404':
  *     description: The walk was not found, this walk's ID might not exist
  *    '500':

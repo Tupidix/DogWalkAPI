@@ -122,6 +122,8 @@ router.get(
  *        description: The dog was updated
  *      401:
  *        description: You need to be authenticated to do that
+ *      403:
+ *       description: You are not the master of this dog
  *      500:
  *        description: Some error happened
  */
@@ -192,6 +194,8 @@ router.post("/", authenticate, (req, res, next) => {
  *    responses:
  *      200:
  *        description: The dog was updated
+ *      403:
+ *       description: You are not the master of this dog
  *      404:
  *        description: The dog was not found, this dog's ID might not exist
  *      500:
@@ -285,6 +289,8 @@ router.patch(
  *    responses:
  *      200:
  *        description: The dog was updated
+ *      403:
+ *       description: You are not the master of this dog
  *      404:
  *        description: The dog was not found, this dog's ID might not exist
  *      500:
@@ -351,6 +357,8 @@ router.put(
  *   responses:
  *     204:
  *       description: The dog was deleted
+ *     403:
+ *      description: You are not the master of this dog
  *     404:
  *       description: The dog was not found, this dog's ID might not exist
  *     500:
