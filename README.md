@@ -56,7 +56,7 @@ To utilize the DogWalk API, follow these steps:
 
 ## WebSocket
 
-Vous pouvez vous connecter à notre WebSocket afin de recevoir des notifications grâce à l'adresse "ws://dogwalkapi.onrender.com" sur Postman. Il y a une notification qui se lance quand une route est créée et quand un utilisateur rejoins une route.
+To receive notifications from the DogWalk API, connect to our WebSocket at "ws://dogwalkapi.onrender.com" on Postman. Notifications are triggered when a route is created or when a user joins a route.
 
 ## API Documentation
 
@@ -68,5 +68,6 @@ Production documentation URL : [dogwalkapi.onrender.com/api-docs/](https://dogwa
 
 Unit and integration tests are available in the `tests/` directory. You can run them with `npm run test` to ensure the quality and reliability of the API.
 
-## License
+## License
+
 This project is licensed under the MIT License.
