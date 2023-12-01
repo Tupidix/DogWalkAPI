@@ -85,6 +85,7 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  * /walks:
  *  post:
  *   summary: Create a walk
+ *   description: 'You must delete the double quotes in the coordinate array in the request body, we can't turn it into an array of numbers'
  *   tags:
  *    - 'walks'
  *   description: Create a walk
@@ -161,7 +162,7 @@ router.post("/", authenticate, (req, res, next) => {
  * '/walks/{id}':
  *  patch:
  *    summary: 'Update certain properties of a walk'
- *    description: 'You must delete the double quotes in the coordinate array in the request body'
+ *    description: 'You must delete the double quotes in the coordinate array in the request body, we can't turn it into an array of numbers'
  *    tags:
  *      - walks
  *    security:
@@ -248,6 +249,7 @@ router.patch(
  * '/walks/{id}':
  *  put:
  *    summary: 'Update all properties of a walk'
+ *    description: 'You must delete the double quotes in the coordinate array in the request body, we can't turn it into an array of numbers'
  *    tags:
  *      - walks
  *    parameters:
