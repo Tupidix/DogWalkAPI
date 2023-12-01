@@ -20,6 +20,8 @@ const router = express.Router();
  *   tags:
  *    - dogs
  *   description: List all dogs
+ *   security:
+ *    - bearerAuth: []
  *   responses:
  *    '200':
  *      description: List of all dogs
@@ -48,6 +50,8 @@ router.get("/", function (req, res, next) {
  *   summary: 'List the details of a dog'
  *   tags:
  *    - dogs
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *    - in: path
  *      name: id
@@ -139,6 +143,8 @@ router.post("/", authenticate, (req, res, next) => {
  *    summary: 'Update certain properties of a dog'
  *    tags:
  *      - dogs
+ *    security:
+ *      - bearerAuth: []
  *    parameters:
  *      - in: path
  *        name: id
@@ -234,6 +240,8 @@ router.patch(
  *        name: id
  *        type: string
  *        description: The dog's ID
+ *    security:
+ *      - bearerAuth: []
  *    required: true
  *    requestBody:
  *      description: The fields to update
@@ -326,6 +334,8 @@ router.put(
  *      type: string
  *      description: The dog's ID
  *      required: true
+ *   security:
+ *    - bearerAuth: []
  *   responses:
  *     204:
  *       description: The dog was deleted

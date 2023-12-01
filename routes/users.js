@@ -22,6 +22,8 @@ const signJwt = promisify(jwt.sign);
  *   tags:
  *    - 'users'
  *   description: List all users
+ *   security:
+ *    - bearerAuth: []
  *   responses:
  *    '200':
  *      description: List of users
@@ -123,6 +125,8 @@ function queryUser(req) {
  *   tags:
  *    - 'users'
  *   description: List all admins
+ *   security:
+ *    - bearerAuth: []
  *   responses:
  *    '200':
  *	    description: List of users
@@ -160,6 +164,8 @@ router.get("/admin", function (req, res, next) {
  *     type: string
  *     description: The user's ID
  *     required: true
+ *   security:
+ *    - bearerAuth: []
  *   responses:
  *    200:
  *     description: The user description by id
@@ -344,6 +350,8 @@ router.post("/login", (req, res, next) => {
  *   summary: 'Update some details from a user'
  *   tags:
  *    - users
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
@@ -472,6 +480,8 @@ router.patch(
  *   summary: Permits the user to join a walk
  *   tags:
  *    - users
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
@@ -526,6 +536,8 @@ router.patch(
  *   summary: Permits the user to leave a walk
  *   tags:
  *    - users
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
@@ -568,6 +580,8 @@ router.patch("/:id/leave", loadUserFromParamsMiddleware, (req, res, next) => {
  *   summary: 'Update all details from a user'
  *   tags:
  *    - users
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
@@ -689,6 +703,8 @@ router.put(
  *   summary: Delete a user
  *   tags:
  *    - 'users'
+ *   security:
+ *    - bearerAuth: []
  *   description: Delete a user
  *   parameters:
  *   - in: path
