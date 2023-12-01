@@ -189,7 +189,7 @@ router.post("/", authenticate, (req, res, next) => {
  *                      type: String
  *                      required: true
  *                      enum: 
- *                       - "Point"
+ *                       - Point
  *                    coordinate:
  *                      type: array
  *                      items:
