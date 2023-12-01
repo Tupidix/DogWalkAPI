@@ -60,7 +60,7 @@ router.get("/", authenticate, function (req, res, next) {
  *      required: true
  *   responses:
  *    200:
- *      description: The dog's details by id
+ *     description: The dog's details by id
  *    404:
  *     description: The dog was not found, this dogs might not exist
  *    500:
@@ -134,6 +134,11 @@ router.post("/", authenticate, (req, res, next) => {
     .save()
     .then((savedDog) => {
       // Send the saved document in the response
+      if (req.currentUserId !== savedDog.master.toString()) {
+        return res
+          .status(403)
+          .send("You must set yourself as the master of this dog");
+      }
       res.send(savedDog);
     })
     .catch((err) => {

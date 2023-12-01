@@ -176,7 +176,7 @@ router.get("/admin", authenticate, function (req, res, next) {
  *     description: Some error happened
  */
 
-router.get("/:id", authenticate, loadUserFromParamsMiddleware, (req, res, next) => {
+router.get("/:id", authenticate, loadUserFromParamsMiddlewareForGet, (req, res, next) => {
 	User.findById(req.params.id)
 		.exec()
 		.then((users) => {
@@ -524,7 +524,7 @@ router.patch(
 			.save()
 			.then((savedUser) => {
 				broadcastMessage({
-					message: "Quelqu'un a rejoins une balade, rejoins le !",
+					message: "A user joined a walk, join him !",
 				});
 				res.send(savedUser);
 			})
@@ -735,6 +735,29 @@ router.delete("/:id", authenticate, loadUserFromParamsMiddleware, (req, res, nex
 });
 
 function loadUserFromParamsMiddleware(req, res, next) {
+	const userId = req.params.id;
+	if (!ObjectId.isValid(userId)) {
+		return userNotFound(res, userId);
+	}
+
+	let query = User.findById(userId);
+
+	query
+		.exec()
+		.then((user) => {
+			if (!user) {
+				return userNotFound(res, userId);
+			}
+			if (user._id.toString() !== req.user._id.toString()) {
+				return res.status(403).send("You can't modify this user");
+			}
+			req.user = user;
+			next();
+		})
+		.catch(next);
+}
+
+function loadUserFromParamsMiddlewareForGet(req, res, next) {
 	const userId = req.params.id;
 	if (!ObjectId.isValid(userId)) {
 		return userNotFound(res, userId);
