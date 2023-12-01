@@ -20,8 +20,6 @@ const router = express.Router();
  *   summary: List all walks
  *   tags:
  *    - 'walks'
- *   security:
- *    - bearerAuth: []
  *   description: List all walks
  *   responses:
  *    '200':
@@ -86,6 +84,8 @@ router.get("/:id", (req, res, next) => {
  *   tags:
  *    - 'walks'
  *   description: Create a walk
+ *   security:
+ *    - bearerAuth: []
  *   requestBody:
  *      description: The fields to update
  *      content:
