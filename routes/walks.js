@@ -372,7 +372,7 @@ function loadWalkFromParamsMiddleware(req, res, next) {
 				return walkNotFound(res, walkId);
 			}
 			if (req.currentUserId !== walk.creator.toString()) {
-				return res.status(403).send("You didn't create this walk");
+				return res.status(403).send("You are not the creator of this walk");
 			}
 
 			req.walk = walk;
