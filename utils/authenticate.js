@@ -8,7 +8,7 @@ export function authenticate(req, res, next) {
   // Ensure the header is present.
   const authorization = req.get("Authorization");
   if (!authorization) {
-    return res.status(401).send("Authorization header is missing");
+    return res.status(401).send("You need to set the Authorization token");
   }
   // Check that the header has the correct format.
   const match = authorization.match(/^Bearer (.+)$/);

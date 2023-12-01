@@ -19,11 +19,17 @@ const swaggerOptions = {
 	  info: {
 		title: 'Dog Walk API',
 		version: 1.0,
-		description: 'A simple Express API for dog walking',
+		description: 'A simple Express API for dog walking apps. If there\' a lock, you need to be authenticated to send the request',
 	  },
 	  components: {
-	  },
-	  security: {
+		securitySchemes: {
+		  bearerAuth: {
+			type: 'http',
+			scheme: 'bearer',
+			bearerFormat: 'JWT',
+			description: 'Enter the token you\'ve got when you logged in here! :)',
+	  		},
+		},
 	  },
 	  servers: [
 		{

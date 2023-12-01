@@ -20,6 +20,8 @@ const router = express.Router();
  *   summary: List all walks
  *   tags:
  *    - 'walks'
+ *   security:
+ *    - bearerAuth: []
  *   description: List all walks
  *   responses:
  *    '200':
@@ -31,7 +33,7 @@ const router = express.Router();
  */
 
 /* GET walks listing. */
-router.get("/", function (req, res, next) {
+router.get("/", authenticate, function (req, res, next) {
 	Walk.find()
 		.sort("name")
 		.exec()
@@ -50,6 +52,8 @@ router.get("/", function (req, res, next) {
  *   summary: 'List the details of a walk'
  *   tags:
  *    - 'walks'
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
@@ -65,7 +69,7 @@ router.get("/", function (req, res, next) {
  *     description: Some error happened
  */
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", authenticate, (req, res, next) => {
 	Walk.findById(req.params.id)
 		.exec()
 		.then((walks) => {
@@ -84,10 +88,8 @@ router.get("/:id", (req, res, next) => {
  *   tags:
  *    - 'walks'
  *   description: Create a walk
- *   headers:
- *    Authorization: Bearer my-token
- *    Accept: application/json
- *    required: true
+ *   security:
+ *    - bearerAuth: []
  *   requestBody:
  *      description: The fields to update
  *      content:
@@ -154,6 +156,8 @@ router.post("/", authenticate, (req, res, next) => {
  *    summary: 'Update certain properties of a walk'
  *    tags:
  *      - walks
+ *    security:
+ *      - bearerAuth: []
  *    parameters:
  *      - in: path
  *        name: id
@@ -200,6 +204,7 @@ router.post("/", authenticate, (req, res, next) => {
 router.patch(
 	"/:id",
 	requireJson,
+	authenticate,
 	loadWalkFromParamsMiddleware,
 	(req, res, next) => {
 		// Update only properties present in the request body
@@ -237,6 +242,8 @@ router.patch(
  *        name: id
  *        type: string
  *        description: The walk's ID
+ *    security:
+ *      - bearerAuth: []
  *    required: true
  *    requestBody:
  *      description: The fields to update
@@ -273,11 +280,14 @@ router.patch(
  *        description: The walk was not found, this walk's ID might not exist
  *      500:
  *        description: Some error happened
+ *      501:
+ *        description: Missing required field(s)
  */
 
 router.put(
 	"/:id",
 	requireJson,
+	authenticate,
 	loadWalkFromParamsMiddleware,
 	(req, res, next) => {
 		// Update all properties
@@ -310,6 +320,8 @@ router.put(
  *   tags:
  *    - 'walks'
  *   description: Delete a walk
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
@@ -325,7 +337,7 @@ router.put(
  *     description: Some error happened
  */
 
-router.delete("/:id", loadWalkFromParamsMiddleware, (req, res, next) => {
+router.delete("/:id", authenticate, loadWalkFromParamsMiddleware, (req, res, next) => {
 	req.walk
 		.deleteOne()
 		.then(() => {
