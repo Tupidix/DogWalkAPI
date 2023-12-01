@@ -112,7 +112,7 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  *                    coordinate:
  *                      type: array
  *                      items:
- *                        type: Number
+ *                        type: number
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
@@ -192,7 +192,7 @@ router.post("/", authenticate, (req, res, next) => {
  *                    coordinate:
  *                      type: array
  *                      items:
- *                        type: Number
+ *                        type: number
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
@@ -277,7 +277,7 @@ router.patch(
  *                    coordinate:
  *                      type: array
  *                      items:
- *                        type: Number
+ *                        type: number
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
