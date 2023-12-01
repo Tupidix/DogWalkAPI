@@ -129,6 +129,9 @@ router.post("/", authenticate, (req, res, next) => {
 		.save()
 		.then((savedDog) => {
 			// Send the saved document in the response
+			if (req.currentUserId !== savedDog.master.toString()) {
+				return res.status(403).send("You must set yourself as the master of this dog");
+			}
 			res.send(savedDog);
 		})
 		.catch((err) => {
