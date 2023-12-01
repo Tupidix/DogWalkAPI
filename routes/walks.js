@@ -69,7 +69,7 @@ router.get("/", authenticate, function (req, res, next) {
  *     description: Some error happened
  */
 
-router.get("/:id", authenticate, (req, res, next) => {
+router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, next) => {
 	Walk.findById(req.params.id)
 		.exec()
 		.then((walks) => {
@@ -137,6 +137,9 @@ router.post("/", authenticate, (req, res, next) => {
 	newWalk
 		.save()
 		.then((savedWalk) => {
+			if (req.currentUserId !== savedWalk.creator.toString()) {
+				return res.status(403).send("You must set yourself as the creator of this walk");
+			}
 			broadcastMessage({
 				message: "Une balade a été créée proche de vous.",
 				title: savedWalk.title,
@@ -360,7 +363,30 @@ function loadWalkFromParamsMiddleware(req, res, next) {
 			if (!walk) {
 				return walkNotFound(res, walkId);
 			}
+			if (req.user._id.toString() !== walk.creator.toString()) {
+				return res.status(403).send("You didn't create this walk");
+			}
 
+			req.walk = walk;
+			next();
+		})
+		.catch(next);
+}
+
+function loadWalkFromParamsMiddlewareForGet(req, res, next) {
+	const walkId = req.params.id;
+	if (!ObjectId.isValid(walkId)) {
+		return walkNotFound(res, walkId);
+	}
+
+	let query = Walk.findById(walkId);
+
+	query
+		.exec()
+		.then((walk) => {
+			if (!walk) {
+				return walkNotFound(res, walkId);
+			}
 			req.walk = walk;
 			next();
 		})
