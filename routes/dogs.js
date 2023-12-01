@@ -20,6 +20,8 @@ const router = express.Router();
  *   tags:
  *    - dogs
  *   description: List all dogs
+ *   security:
+ *    - bearerAuth: []
  *   responses:
  *    '200':
  *      description: List of all dogs
@@ -48,6 +50,8 @@ router.get("/", authenticate, function (req, res, next) {
  *   summary: 'List the details of a dog'
  *   tags:
  *    - dogs
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *    - in: path
  *      name: id
@@ -78,14 +82,11 @@ router.get("/:id", authenticate, loadDogFromParamsMiddleware, (req, res, next) =
  * @swagger
  * '/dogs':
  *  post:
- *   summary: 'Create a dog, you need to be authenticated to do that'
+ *   summary: 'Create a dog'
  *   tags:
  *    - dogs
- *   description: "The auth token generated from the login route must be copied in the field (with Bearer in front of it like: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')"
- *   headers:
- *    Authorization: Bearer my-token
- *    Accept: application/json
- *    required: true
+ *   security:
+ *    - bearerAuth: []
  *   requestBody:
  *    description: The dog to create
  *    required: true
@@ -142,6 +143,8 @@ router.post("/", authenticate, (req, res, next) => {
  *    summary: 'Update certain properties of a dog'
  *    tags:
  *      - dogs
+ *    security:
+ *      - bearerAuth: []
  *    parameters:
  *      - in: path
  *        name: id
@@ -237,6 +240,8 @@ router.patch(
  *        name: id
  *        type: string
  *        description: The dog's ID
+ *    security:
+ *      - bearerAuth: []
  *    required: true
  *    requestBody:
  *      description: The fields to update
@@ -330,6 +335,8 @@ router.put(
  *      type: string
  *      description: The dog's ID
  *      required: true
+ *   security:
+ *    - bearerAuth: []
  *   responses:
  *     204:
  *       description: The dog was deleted

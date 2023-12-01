@@ -20,6 +20,8 @@ const router = express.Router();
  *   summary: List all walks
  *   tags:
  *    - 'walks'
+ *   security:
+ *    - bearerAuth: []
  *   description: List all walks
  *   responses:
  *    '200':
@@ -50,6 +52,8 @@ router.get("/", authenticate, function (req, res, next) {
  *   summary: 'List the details of a walk'
  *   tags:
  *    - 'walks'
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
@@ -84,10 +88,8 @@ router.get("/:id", authenticate, (req, res, next) => {
  *   tags:
  *    - 'walks'
  *   description: Create a walk
- *   parameters:
- *     - in: header
- *      name: Authorization
- *      type: string
+ *   security:
+ *    - bearerAuth: []
  *   requestBody:
  *      description: The fields to update
  *      content:
@@ -154,6 +156,8 @@ router.post("/", authenticate, (req, res, next) => {
  *    summary: 'Update certain properties of a walk'
  *    tags:
  *      - walks
+ *    security:
+ *      - bearerAuth: []
  *    parameters:
  *      - in: path
  *        name: id
@@ -238,6 +242,8 @@ router.patch(
  *        name: id
  *        type: string
  *        description: The walk's ID
+ *    security:
+ *      - bearerAuth: []
  *    required: true
  *    requestBody:
  *      description: The fields to update
@@ -314,6 +320,8 @@ router.put(
  *   tags:
  *    - 'walks'
  *   description: Delete a walk
+ *   security:
+ *    - bearerAuth: []
  *   parameters:
  *   - in: path
  *     name: id
