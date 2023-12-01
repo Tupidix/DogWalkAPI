@@ -394,7 +394,7 @@ function loadDogFromParamsMiddleware(req, res, next) {
         return dogNotFound(res, dogId);
       }
       if (req.currentUserId !== dog.master.toString()) {
-        return res.status(403).send("You are not the master of this dog");
+        return res.status(403).send("You are not the owner of this dog");
       }
 
       req.dog = dog;
