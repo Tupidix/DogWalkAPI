@@ -85,13 +85,12 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  * /walks:
  *  post:
  *   summary: Create a walk
+ *   description: You must delete the double quotes in the coordinate array in the request body, we can't turn it into an array of numbers
  *   tags:
  *    - 'walks'
- *   description: Create a walk
  *   security:
  *    - bearerAuth: []
  *   requestBody:
- *      description: The walk to create
  *      content:
  *        application/json:
  *          schema:
@@ -106,12 +105,14 @@ router.get("/:id", authenticate, loadWalkFromParamsMiddlewareForGet, (req, res, 
  *                  type: object
  *                  properties:
  *                    type:
- *                      type: string
- *                      enum: Point
+ *                      type: String
+ *                      required: true
+ *                      enum: 
+ *                       - "Point"
  *                    coordinate:
  *                      type: array
  *                      items:
- *                        type: Point
+ *                        type: number
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
@@ -159,6 +160,7 @@ router.post("/", authenticate, (req, res, next) => {
  * '/walks/{id}':
  *  patch:
  *    summary: 'Update certain properties of a walk'
+ *    description: You must delete the double quotes in the coordinate array in the request body, we can't turn it into an array of numbers
  *    tags:
  *      - walks
  *    security:
@@ -170,7 +172,6 @@ router.post("/", authenticate, (req, res, next) => {
  *        description: The walk's ID
  *    required: true
  *    requestBody:
- *      description: The fields to update
  *      content:
  *        application/json:
  *          schema:
@@ -185,12 +186,14 @@ router.post("/", authenticate, (req, res, next) => {
  *                  type: object
  *                  properties:
  *                    type:
- *                      type: string
- *                      enum: Point
+ *                      type: String
+ *                      required: true
+ *                      enum: 
+ *                       - "Point"
  *                    coordinate:
  *                      type: array
  *                      items:
- *                        type: Point
+ *                        type: Number
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:
@@ -243,6 +246,7 @@ router.patch(
  * '/walks/{id}':
  *  put:
  *    summary: 'Update all properties of a walk'
+ *    description: You must delete the double quotes in the coordinate array in the request body, we can't turn it into an array of numbers
  *    tags:
  *      - walks
  *    parameters:
@@ -254,7 +258,6 @@ router.patch(
  *      - bearerAuth: []
  *    required: true
  *    requestBody:
- *      description: The fields to update
  *      content:
  *        application/json:
  *          schema:
@@ -269,12 +272,14 @@ router.patch(
  *                  type: object
  *                  properties:
  *                    type:
- *                      type: string
- *                      enum: Point
+ *                      type: String
+ *                      required: true
+ *                      enum: 
+ *                       - "Point"
  *                    coordinate:
  *                      type: array
  *                      items:
- *                        type: Point
+ *                        type: number
  *                        description: The walk's path.
  *                        example: 2.3522, 48.8566
  *              creator:

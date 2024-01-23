@@ -8,33 +8,37 @@ import walksRouter from "./routes/walks.js";
 import mongoose from "mongoose";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
 mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/DogWalkAPI");
 
 const app = express();
 
+app.use(cors());
+
 const swaggerOptions = {
 	definition: {
-	  openapi: '3.0.0',
-	  info: {
-		title: 'Dog Walk API',
-		version: 1.0,
-		description: 'A simple Express API for dog walking apps. If there\' a lock, you need to be authenticated to send the request',
-	  },
-	  components: {
-		securitySchemes: {
-		  bearerAuth: {
-			type: 'http',
-			scheme: 'bearer',
-			bearerFormat: 'JWT',
-			description: 'Enter the token you\'ve got when you logged in here! :)',
-	  		},
+		openapi: "3.0.0",
+		info: {
+			title: "Dog Walk API",
+			version: 1.0,
+			description:
+				"A simple Express API for dog walking apps. \n If there' a lock, you need to be authenticated to send the request. \n You must log in and you'll receive your token.",
 		},
-	  },
-	  servers: [
-		{
-		  url: 'https://dogwalkapi.onrender.com/',
+		components: {
+			securitySchemes: {
+				bearerAuth: {
+					type: "http",
+					scheme: "bearer",
+					bearerFormat: "JWT",
+					description: "Enter the token you've got when you logged in here! :)",
+				},
+			},
 		},
+		servers: [
+			{
+				url: "https://dogwalkapi.onrender.com/",
+			},
 		],
 	},
 	apis: ["./routes/*.js", "./models/*.js"],

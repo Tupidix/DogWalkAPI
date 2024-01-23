@@ -6,6 +6,7 @@ import {
 	generateValidJwt,
 	createUserAndGetTokenAndUser,
 } from "../utils/databaseoperations.js";
+import user from "../models/user.js";
 
 // Authentification
 beforeEach(async () => {
@@ -14,7 +15,7 @@ beforeEach(async () => {
 
 describe("POST /dogs", () => {
 	it("should refuse to create a dog because the master is missing", async function () {
-		// Create a user
+		const naissanceChien = new Date().toISOString();
 
 		// Create a user and get the token
 		const userRecu = await createUserAndGetTokenAndUser();
@@ -26,7 +27,7 @@ describe("POST /dogs", () => {
 			.send({
 				name: "Max",
 				breed: "Labrador Retriever",
-				birthdate: new Date(),
+				birthdate: naissanceChien,
 				picture: "mydog.jpg",
 			})
 			.set("Accept", "application/json")
@@ -39,7 +40,6 @@ describe("POST /dogs", () => {
 		);
 	});
 });
-// });
 
 afterAll(async () => {
 	await mongoose.disconnect();
